@@ -170,7 +170,7 @@ public class PatternLockView extends View {
                     ResourceUtils.getDimensionInPx(getContext(), R.dimen.pattern_lock_dot_size));
             mDotSizeSelected = (int) typedArray.getDimension(R.styleable
                             .PatternLockView_dotSizeSelected,
-                    ResourceUtils.getDimensionInPx(getContext(), R.dimen.pattern_lock_dot_size));
+                    ResourceUtils.getDimensionInPx(getContext(), R.dimen.pattern_lock_dot_selected_size));
             mDotAnimationDuration = typedArray.getInt(R.styleable.PatternLockView_dotAnimationDuration,
                     DEFAULT_DOT_ANIMATION_DURATION);
         } finally {
@@ -767,25 +767,24 @@ public class PatternLockView extends View {
                                     Interpolator interpolator, final DotState state,
                                     final Runnable endRunnable) {
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(start, end);
-        valueAnimator
-                .addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        state.mSize = (Float) animation.getAnimatedValue();
-                        invalidate();
-                    }
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                state.mSize = (Float) animation.getAnimatedValue();
+                invalidate();
+            }
 
-                });
+        });
         if (endRunnable != null) {
             valueAnimator.addListener(new AnimatorListenerAdapter() {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    if (endRunnable != null)
+                    if (endRunnable != null) {
                         endRunnable.run();
+                    }
                 }
-
             });
         }
         valueAnimator.setInterpolator(interpolator);
