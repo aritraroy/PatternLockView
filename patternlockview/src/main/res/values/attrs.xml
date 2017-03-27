@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PatternLockView">
+        <attr name="aspectRatio" format="enum">
+            <enum name="square" value="0"/>
+            <enum name="patten_lock_width" value="1"/>
+            <enum name="patten_lock_height" value="2"/>
+        </attr>
+        <attr name="pathColor" format="color"/>
+        <attr name="pathWidth" format="dimension"/>
+        <attr name="dotSizeNormal" format="dimension"/>
+        <attr name="dotCount" format="integer"/>
+        <attr name="dotSizeSelected" format="dimension"/>
+        <attr name="normalColor" format="color"/>
+        <attr name="successColor" format="color"/>
+        <attr name="errorColor" format="color"/>
+        <attr name="dotAnimationDuration" format="integer"/>
+    </declare-styleable>
+</resources>

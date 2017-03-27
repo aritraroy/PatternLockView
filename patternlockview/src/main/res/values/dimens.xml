@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="pattern_lock_path_width">4dp</dimen>
+    <dimen name="pattern_lock_dot_size">12dp</dimen>
+    <dimen name="pattern_lock_dot_selected_size">28dp</dimen>
+</resources>
