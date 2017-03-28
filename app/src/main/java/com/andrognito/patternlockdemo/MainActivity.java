@@ -7,6 +7,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.andrognito.patternlockview.PatternLockView;
+import com.andrognito.patternlockview.utils.ResourceUtils;
 import com.andrognito.rxpatternlockview.PatternLockEvent;
 import com.andrognito.rxpatternlockview.RxPatternLockView;
 
@@ -25,6 +26,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mPatternLockView = (PatternLockView) findViewById(R.id.patter_lock_view);
+        mPatternLockView.setDotCount(4);
+        mPatternLockView.setAspectRatioEnabled(true);
+        mPatternLockView.setViewMode(PatternLockView.PatternViewMode.CORRECT);
+        mPatternLockView.setNormalStateColor(ResourceUtils.getColor(this, R.color.colorPrimary));
+        mPatternLockView.setCorrectStateColor(ResourceUtils.getColor(this, R.color.colorAccent));
+
         RxPatternLockView.patternChanges(mPatternLockView)
                 .subscribe(new Consumer<PatternLockEvent>() {
                     @Override

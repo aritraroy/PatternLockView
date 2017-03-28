@@ -30,11 +30,12 @@
 
     <com.andrognito.patternlockview.PatternLockView
         android:id="@+id/patter_lock_view"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
+        android:layout_width="280dp"
+        android:layout_height="380dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
-        app:aspectRatio="height_bias"
+        app:aspectRatio="square"
+        app:dotAnimationDuration="150"
         app:aspectRatioEnabled="true"
         app:dotCount="3"/>
 

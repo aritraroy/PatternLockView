@@ -15,6 +15,8 @@ import android.os.Debug;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
+import android.support.annotation.ColorInt;
+import android.support.annotation.Dimension;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -69,16 +71,20 @@ public class PatternLockView extends View {
     @Retention(RetentionPolicy.SOURCE)
     public @interface PatternViewMode {
         /**
-         * This state represents a correctly drawn pattern by the user
+         * This state represents a correctly drawn pattern by the user. The color of the path and
+         * the dots both would be changed to this color.
+         * <p>
          * (NOTE - Consider showing this state in a friendly color)
          */
         int CORRECT = 0;
         /**
-         * Automatically draw the pattern for demo or tutorial purposes
+         * Automatically draw the pattern for demo or tutorial purposes.
          */
         int AUTO_DRAW = 1;
         /**
-         * This state represents a wrongly drawn pattern by the user
+         * This state represents a wrongly drawn pattern by the user. The color of the path and
+         * the dots both would be changed to this color.
+         * <p>
          * (NOTE - Consider showing this state in an attention-seeking color)
          */
         int WRONG = 2;
@@ -87,8 +93,17 @@ public class PatternLockView extends View {
     private static final int DEFAULT_PATTERN_DOT_COUNT = 3;
     private static final boolean PROFILE_DRAWING = false;
 
+    /**
+     * The time (in millis) spend in animating each circle of a lock pattern if
+     * the animating mode is set. The entire animation should take this constant
+     * the length of the pattern to complete.
+     */
+    private static final int MILLIS_PER_CIRCLE_ANIMATING = 700;
+
     // Amount of time (in millis) spent to animate a dot
-    private static final int DEFAULT_DOT_ANIMATION_DURATION = 700;
+    private static final int DEFAULT_DOT_ANIMATION_DURATION = 190;
+    // Amount of time (in millis) spent to animate a path ends
+    private static final int DEFAULT_PATH_END_ANIMATION_DURATION = 100;
     // This can be used to avoid updating the display for very small motions or noisy panels
     private static final float DEFAULT_DRAG_THRESHOLD = 0.0f;
 
@@ -102,17 +117,17 @@ public class PatternLockView extends View {
     private static int sDotCount;
     private boolean mAspectRatioEnabled;
     private int mAspectRatio;
-    private int mPathColor;
-    private int mNormalColor;
-    private int mErrorColor;
-    private int mSuccessColor;
+    private int mNormalStateColor;
+    private int mWrongStateColor;
+    private int mCorrectStateColor;
     private int mPathWidth;
     private int mDotSizeNormal;
     private int mDotSizeSelected;
     private int mDotAnimationDuration;
+    private int mPathEndAnimationDuration;
 
-    private Paint mDotPaint = new Paint();
-    private Paint mPathPaint = new Paint();
+    private Paint mDotPaint;
+    private Paint mPathPaint;
 
     private List<PatternLockListener> mPatternLockListeners;
     // The pattern represented as a list of connected {@link Dot}
@@ -160,16 +175,14 @@ public class PatternLockView extends View {
                     false);
             mAspectRatio = typedArray.getInt(R.styleable.PatternLockView_aspectRatio,
                     ASPECT_RATIO_SQUARE);
-            mPathColor = typedArray.getColor(R.styleable.PatternLockView_pathColor,
-                    ResourceUtils.getColor(getContext(), R.color.white));
-            mNormalColor = typedArray.getColor(R.styleable.PatternLockView_normalColor,
-                    ResourceUtils.getColor(getContext(), R.color.white));
-            mSuccessColor = typedArray.getColor(R.styleable.PatternLockView_successColor,
-                    ResourceUtils.getColor(getContext(), R.color.white));
-            mErrorColor = typedArray.getColor(R.styleable.PatternLockView_errorColor,
-                    ResourceUtils.getColor(getContext(), R.color.pomegranate));
             mPathWidth = (int) typedArray.getDimension(R.styleable.PatternLockView_pathWidth,
                     ResourceUtils.getDimensionInPx(getContext(), R.dimen.pattern_lock_path_width));
+            mNormalStateColor = typedArray.getColor(R.styleable.PatternLockView_normalStateColor,
+                    ResourceUtils.getColor(getContext(), R.color.white));
+            mCorrectStateColor = typedArray.getColor(R.styleable.PatternLockView_correctStateColor,
+                    ResourceUtils.getColor(getContext(), R.color.white));
+            mWrongStateColor = typedArray.getColor(R.styleable.PatternLockView_wrongStateColor,
+                    ResourceUtils.getColor(getContext(), R.color.pomegranate));
             mDotSizeNormal = (int) typedArray.getDimension(R.styleable.PatternLockView_dotSizeNormal,
                     ResourceUtils.getDimensionInPx(getContext(), R.dimen.pattern_lock_dot_size));
             mDotSizeSelected = (int) typedArray.getDimension(R.styleable
@@ -177,6 +190,8 @@ public class PatternLockView extends View {
                     ResourceUtils.getDimensionInPx(getContext(), R.dimen.pattern_lock_dot_selected_size));
             mDotAnimationDuration = typedArray.getInt(R.styleable.PatternLockView_dotAnimationDuration,
                     DEFAULT_DOT_ANIMATION_DURATION);
+            mPathEndAnimationDuration = typedArray.getInt(R.styleable.PatternLockView_pathEndAnimationDuration,
+                    DEFAULT_PATH_END_ANIMATION_DURATION);
         } finally {
             typedArray.recycle();
         }
@@ -185,24 +200,6 @@ public class PatternLockView extends View {
         mPatternSize = sDotCount * sDotCount;
         mPattern = new ArrayList<>(mPatternSize);
         mPatternDrawLookup = new boolean[sDotCount][sDotCount];
-        mPatternLockListeners = new ArrayList<>();
-
-        initView();
-    }
-
-    private void initView() {
-        setClickable(true);
-
-        mPathPaint.setAntiAlias(true);
-        mPathPaint.setDither(true);
-        mPathPaint.setColor(mPathColor);
-        mPathPaint.setStyle(Paint.Style.STROKE);
-        mPathPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPathPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPathPaint.setStrokeWidth(mPathWidth);
-
-        mDotPaint.setAntiAlias(true);
-        mDotPaint.setDither(true);
 
         mDotStates = new DotState[sDotCount][sDotCount];
         for (int i = 0; i < sDotCount; i++) {
@@ -211,6 +208,27 @@ public class PatternLockView extends View {
                 mDotStates[i][j].mSize = mDotSizeNormal;
             }
         }
+
+        mPatternLockListeners = new ArrayList<>();
+
+        initView();
+    }
+
+    private void initView() {
+        setClickable(true);
+
+        mPathPaint = new Paint();
+        mPathPaint.setAntiAlias(true);
+        mPathPaint.setDither(true);
+        mPathPaint.setColor(mNormalStateColor);
+        mPathPaint.setStyle(Paint.Style.STROKE);
+        mPathPaint.setStrokeJoin(Paint.Join.ROUND);
+        mPathPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPathPaint.setStrokeWidth(mPathWidth);
+
+        mDotPaint = new Paint();
+        mDotPaint.setAntiAlias(true);
+        mDotPaint.setDither(true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
                 && !isInEditMode()) {
@@ -261,10 +279,10 @@ public class PatternLockView extends View {
         boolean[][] drawLookupTable = mPatternDrawLookup;
 
         if (mPatternViewMode == AUTO_DRAW) {
-            int oneCycle = (patternSize + 1) * mDotAnimationDuration;
+            int oneCycle = (patternSize + 1) * MILLIS_PER_CIRCLE_ANIMATING;
             int spotInCycle = (int) (SystemClock.elapsedRealtime() - mAnimatingPeriodStart)
                     % oneCycle;
-            int numCircles = spotInCycle / mDotAnimationDuration;
+            int numCircles = spotInCycle / MILLIS_PER_CIRCLE_ANIMATING;
 
             clearPatternDrawLookup();
             for (int i = 0; i < numCircles; i++) {
@@ -276,8 +294,8 @@ public class PatternLockView extends View {
                     && numCircles < patternSize;
 
             if (needToUpdateInProgressPoint) {
-                float percentageOfNextCircle = ((float) (spotInCycle % mDotAnimationDuration))
-                        / mDotAnimationDuration;
+                float percentageOfNextCircle = ((float) (spotInCycle % MILLIS_PER_CIRCLE_ANIMATING))
+                        / MILLIS_PER_CIRCLE_ANIMATING;
 
                 Dot currentDot = pattern.get(numCircles - 1);
                 float centerX = getCenterXForColumn(currentDot.mColumn);
@@ -481,24 +499,21 @@ public class PatternLockView extends View {
         return sDotCount;
     }
 
+    @AspectRatio
     public int getAspectRatio() {
         return mAspectRatio;
     }
 
-    public int getPathColor() {
-        return mPathColor;
+    public int getNormalStateColor() {
+        return mNormalStateColor;
     }
 
-    public int getNormalColor() {
-        return mNormalColor;
+    public int getWrongStateColor() {
+        return mWrongStateColor;
     }
 
-    public int getErrorColor() {
-        return mErrorColor;
-    }
-
-    public int getSuccessColor() {
-        return mSuccessColor;
+    public int getCorrectStateColor() {
+        return mCorrectStateColor;
     }
 
     public int getPathWidth() {
@@ -531,7 +546,7 @@ public class PatternLockView extends View {
         for (Dot dot : pattern) {
             mPatternDrawLookup[dot.mRow][dot.mColumn] = true;
         }
-        setDisplayMode(patternViewMode);
+        setViewMode(patternViewMode);
     }
 
     /**
@@ -539,7 +554,7 @@ public class PatternLockView extends View {
      * instance, after detecting a pattern to tell this view whether change the
      * in progress result to correct or wrong.
      */
-    public void setDisplayMode(@PatternViewMode int patternViewMode) {
+    public void setViewMode(@PatternViewMode int patternViewMode) {
         mPatternViewMode = patternViewMode;
         if (patternViewMode == AUTO_DRAW) {
             if (mPattern.size() == 0) {
@@ -554,6 +569,74 @@ public class PatternLockView extends View {
             clearPatternDrawLookup();
         }
         invalidate();
+    }
+
+    public void setDotCount(int dotCount) {
+        sDotCount = dotCount;
+        mPatternSize = sDotCount * sDotCount;
+        mPattern = new ArrayList<>(mPatternSize);
+        mPatternDrawLookup = new boolean[sDotCount][sDotCount];
+
+        mDotStates = new DotState[sDotCount][sDotCount];
+        for (int i = 0; i < sDotCount; i++) {
+            for (int j = 0; j < sDotCount; j++) {
+                mDotStates[i][j] = new DotState();
+                mDotStates[i][j].mSize = mDotSizeNormal;
+            }
+        }
+
+        requestLayout();
+        invalidate();
+    }
+
+    public void setAspectRatioEnabled(boolean aspectRatioEnabled) {
+        mAspectRatioEnabled = aspectRatioEnabled;
+        requestLayout();
+    }
+
+    public void setNormalStateColor(@ColorInt int normalStateColor) {
+        mNormalStateColor = normalStateColor;
+    }
+
+    public void setWrongStateColor(@ColorInt int wrongStateColor) {
+        mWrongStateColor = wrongStateColor;
+    }
+
+    public void setCorrectStateColor(@ColorInt int correctStateColor) {
+        mCorrectStateColor = correctStateColor;
+    }
+
+    public void setPathWidth(@Dimension int pathWidth) {
+        mPathWidth = pathWidth;
+
+        initView();
+        invalidate();
+    }
+
+    public void setDotSizeNormal(@Dimension int dotSizeNormal) {
+        mDotSizeNormal = dotSizeNormal;
+
+        for (int i = 0; i < sDotCount; i++) {
+            for (int j = 0; j < sDotCount; j++) {
+                mDotStates[i][j] = new DotState();
+                mDotStates[i][j].mSize = mDotSizeNormal;
+            }
+        }
+
+        invalidate();
+    }
+
+    public void setDotSizeSelected(@Dimension int dotSizeSelected) {
+        mDotSizeSelected = dotSizeSelected;
+    }
+
+    public void setDotAnimationDuration(int dotAnimationDuration) {
+        mDotAnimationDuration = dotAnimationDuration;
+        invalidate();
+    }
+
+    public void setPathEndAnimationDuration(int pathEndAnimationDuration) {
+        mPathEndAnimationDuration = pathEndAnimationDuration;
     }
 
     public void addPatternLockListener(PatternLockListener patternLockListener) {
@@ -730,19 +813,19 @@ public class PatternLockView extends View {
         mPatternDrawLookup[newDot.mRow][newDot.mColumn] = true;
         mPattern.add(newDot);
         if (!mInStealthMode) {
-            startCellActivatedAnimation(newDot);
+            startDotSelectedAnimation(newDot);
         }
         notifyPatternProgress();
     }
 
-    private void startCellActivatedAnimation(Dot dot) {
+    private void startDotSelectedAnimation(Dot dot) {
         final DotState dotState = mDotStates[dot.mRow][dot.mColumn];
-        startSizeAnimation(mDotSizeNormal, mDotSizeSelected, 96,
+        startSizeAnimation(mDotSizeNormal, mDotSizeSelected, mDotAnimationDuration,
                 mLinearOutSlowInInterpolator, dotState, new Runnable() {
 
                     @Override
                     public void run() {
-                        startSizeAnimation(mDotSizeSelected, mDotSizeNormal, 192,
+                        startSizeAnimation(mDotSizeSelected, mDotSizeNormal, mDotAnimationDuration,
                                 mFastOutSlowInInterpolator, dotState, null);
                     }
                 });
@@ -754,18 +837,17 @@ public class PatternLockView extends View {
                                        final float startX, final float startY, final float targetX,
                                        final float targetY) {
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
-        valueAnimator
-                .addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float t = (Float) animation.getAnimatedValue();
-                        state.mLineEndX = (1 - t) * startX + t * targetX;
-                        state.mLineEndY = (1 - t) * startY + t * targetY;
-                        invalidate();
-                    }
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float t = (Float) animation.getAnimatedValue();
+                state.mLineEndX = (1 - t) * startX + t * targetX;
+                state.mLineEndY = (1 - t) * startY + t * targetY;
+                invalidate();
+            }
 
-                });
+        });
         valueAnimator.addListener(new AnimatorListenerAdapter() {
 
             @Override
@@ -775,7 +857,7 @@ public class PatternLockView extends View {
 
         });
         valueAnimator.setInterpolator(mFastOutSlowInInterpolator);
-        valueAnimator.setDuration(100);
+        valueAnimator.setDuration(mPathEndAnimationDuration);
         valueAnimator.start();
         state.mLineAnimator = valueAnimator;
     }
@@ -1033,12 +1115,12 @@ public class PatternLockView extends View {
 
     private int getCurrentColor(boolean partOfPattern) {
         if (!partOfPattern || mInStealthMode || mPatternInProgress) {
-            return mNormalColor;
+            return mNormalStateColor;
         } else if (mPatternViewMode == WRONG) {
-            return mErrorColor;
+            return mWrongStateColor;
         } else if (mPatternViewMode == CORRECT
                 || mPatternViewMode == AUTO_DRAW) {
-            return mSuccessColor;
+            return mCorrectStateColor;
         } else {
             throw new IllegalStateException("Unknown view mode " + mPatternViewMode);
         }

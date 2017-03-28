@@ -2,5 +2,6 @@
 <resources>
     <color name="white">#FFFF</color>
     <color name="pomegranate">#f4511e</color>
+    <color name="colorAccent">#FF4081</color>
 
 </resources>
