@@ -3,9 +3,11 @@
     <declare-styleable name="PatternLockView">
         <attr name="aspectRatio" format="enum">
             <enum name="square" value="0"/>
-            <enum name="patten_lock_width" value="1"/>
-            <enum name="patten_lock_height" value="2"/>
+            <enum name="width_bias" value="1"/>
+            <enum name="height_bias" value="2"/>
         </attr>
+        <attr name="aspectRatioEnabled" format="boolean"/>
+
         <attr name="pathColor" format="color"/>
         <attr name="pathWidth" format="dimension"/>
         <attr name="dotSizeNormal" format="dimension"/>

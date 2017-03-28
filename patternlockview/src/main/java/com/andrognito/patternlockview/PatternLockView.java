@@ -17,6 +17,7 @@ import android.os.Parcelable;
 import android.os.SystemClock;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,9 +35,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.andrognito.patternlockview.PatternLockView.AspectRatio.ASPECT_PATTERN_HEIGHT;
-import static com.andrognito.patternlockview.PatternLockView.AspectRatio.ASPECT_PATTERN_SQUARE;
-import static com.andrognito.patternlockview.PatternLockView.AspectRatio.ASPECT_PATTERN_WIDTH;
+import static com.andrognito.patternlockview.PatternLockView.AspectRatio.ASPECT_RATIO_HEIGHT_BIAS;
+import static com.andrognito.patternlockview.PatternLockView.AspectRatio.ASPECT_RATIO_SQUARE;
+import static com.andrognito.patternlockview.PatternLockView.AspectRatio.ASPECT_RATIO_WIDTH_BIAS;
 import static com.andrognito.patternlockview.PatternLockView.PatternViewMode.AUTO_DRAW;
 import static com.andrognito.patternlockview.PatternLockView.PatternViewMode.CORRECT;
 import static com.andrognito.patternlockview.PatternLockView.PatternViewMode.WRONG;
@@ -46,6 +47,20 @@ import static com.andrognito.patternlockview.PatternLockView.PatternViewMode.WRO
  * can be used to lock any Activity or Fragment from the user
  */
 public class PatternLockView extends View {
+
+    /**
+     * Represents the aspect ratio for the View
+     */
+    @IntDef({ASPECT_RATIO_SQUARE, ASPECT_RATIO_WIDTH_BIAS, ASPECT_RATIO_HEIGHT_BIAS})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface AspectRatio {
+        // Width and height will be same. Minimum of width and height
+        int ASPECT_RATIO_SQUARE = 0;
+        // Width will be fixed. The height will be the minimum of width and height
+        int ASPECT_RATIO_WIDTH_BIAS = 1;
+        // Height will be fixed. The width will be the minimum of width and height
+        int ASPECT_RATIO_HEIGHT_BIAS = 2;
+    }
 
     /**
      * Represents the different modes in which this view can be represented
@@ -69,20 +84,6 @@ public class PatternLockView extends View {
         int WRONG = 2;
     }
 
-    /**
-     * Represents the aspect ratio for the View
-     */
-    @IntDef({ASPECT_PATTERN_SQUARE, ASPECT_PATTERN_WIDTH, ASPECT_PATTERN_HEIGHT})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface AspectRatio {
-        // Width and height will be same. Minimum of width and height
-        int ASPECT_PATTERN_SQUARE = 0;
-        // Width will be fixed. The height will be the minimum of width and height
-        int ASPECT_PATTERN_WIDTH = 1;
-        // Height will be fixed. The width will be the minimum of width and height
-        int ASPECT_PATTERN_HEIGHT = 2;
-    }
-
     private static final int DEFAULT_PATTERN_DOT_COUNT = 3;
     private static final boolean PROFILE_DRAWING = false;
 
@@ -99,6 +100,7 @@ public class PatternLockView extends View {
 
     // Made static so that the static inner class can use it
     private static int sDotCount;
+    private boolean mAspectRatioEnabled;
     private int mAspectRatio;
     private int mPathColor;
     private int mNormalColor;
@@ -154,8 +156,10 @@ public class PatternLockView extends View {
         try {
             sDotCount = typedArray.getInt(R.styleable.PatternLockView_dotCount,
                     DEFAULT_PATTERN_DOT_COUNT);
+            mAspectRatioEnabled = typedArray.getBoolean(R.styleable.PatternLockView_aspectRatioEnabled,
+                    false);
             mAspectRatio = typedArray.getInt(R.styleable.PatternLockView_aspectRatio,
-                    ASPECT_PATTERN_SQUARE);
+                    ASPECT_RATIO_SQUARE);
             mPathColor = typedArray.getColor(R.styleable.PatternLockView_pathColor,
                     ResourceUtils.getColor(getContext(), R.color.white));
             mNormalColor = typedArray.getColor(R.styleable.PatternLockView_normalColor,
@@ -219,24 +223,35 @@ public class PatternLockView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int minimumWidth = getSuggestedMinimumWidth();
-        int minimumHeight = getSuggestedMinimumHeight();
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int viewWidth = resolveMeasured(widthMeasureSpec, minimumWidth);
-        int viewHeight = resolveMeasured(heightMeasureSpec, minimumHeight);
-
-        switch (mAspectRatio) {
-            case ASPECT_PATTERN_SQUARE:
-                viewWidth = viewHeight = Math.min(viewWidth, viewHeight);
-                break;
-            case ASPECT_PATTERN_WIDTH:
-                viewHeight = Math.min(viewWidth, viewHeight);
-                break;
-            case ASPECT_PATTERN_HEIGHT:
-                viewWidth = Math.min(viewWidth, viewHeight);
-                break;
+        if (!mAspectRatioEnabled) {
+            return;
         }
-        setMeasuredDimension(viewWidth, viewHeight);
+
+        int oldWidth = resolveMeasured(widthMeasureSpec, getSuggestedMinimumWidth());
+        int oldHeight = resolveMeasured(heightMeasureSpec, getSuggestedMinimumHeight());
+
+        int newWidth;
+        int newHeight;
+        switch (mAspectRatio) {
+            case ASPECT_RATIO_SQUARE:
+                newWidth = newHeight = Math.min(getMeasuredWidth(), getMeasuredHeight());
+                break;
+            case ASPECT_RATIO_WIDTH_BIAS:
+                newWidth = oldWidth;
+                newHeight = Math.min(oldWidth, oldHeight);
+                break;
+
+            case ASPECT_RATIO_HEIGHT_BIAS:
+                newWidth = Math.min(oldWidth, oldHeight);
+                newHeight = oldHeight;
+                break;
+
+            default:
+                throw new IllegalStateException("Unknown aspect ratio");
+        }
+        setMeasuredDimension(newWidth, newHeight);
     }
 
     @Override
@@ -348,6 +363,8 @@ public class PatternLockView extends View {
 
     @Override
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+        Log.d(getClass().getName(), "onSizeChanged() called");
+
         int adjustedWidth = width - getPaddingLeft() - getPaddingRight();
         mViewWidth = adjustedWidth / (float) sDotCount;
 
