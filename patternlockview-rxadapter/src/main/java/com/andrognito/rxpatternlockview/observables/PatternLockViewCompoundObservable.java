@@ -14,15 +14,20 @@ import io.reactivex.android.MainThreadDisposable;
  * Created by aritraroy on 27/03/17.
  */
 
-public class PatternLockViewCompoundObservable extends BasePatternLockViewObservable<PatternLockCompoundEvent> {
+public class PatternLockViewCompoundObservable
+        extends BasePatternLockViewObservable<PatternLockCompoundEvent> {
 
-    public PatternLockViewCompoundObservable(PatternLockView patternLockView) {
-        super(patternLockView);
+    public PatternLockViewCompoundObservable(PatternLockView patternLockView, boolean emitInitialValue) {
+        super(patternLockView, emitInitialValue);
     }
 
     @Override
     protected void subscribeActual(Observer<? super PatternLockCompoundEvent> observer) {
         subscribeListener(observer);
+        if (mEmitInitialValue) {
+            observer.onNext(new PatternLockCompoundEvent(PatternLockCompoundEvent.EventType.PATTERN_STARTED,
+                    mPatternLockView.getPattern()));
+        }
     }
 
     @Override

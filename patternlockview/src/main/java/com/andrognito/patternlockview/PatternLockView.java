@@ -115,14 +115,15 @@ public class PatternLockView extends View {
 
     // Made static so that the static inner class can use it
     private static int sDotCount;
+
     private boolean mAspectRatioEnabled;
     private int mAspectRatio;
     private int mNormalStateColor;
     private int mWrongStateColor;
     private int mCorrectStateColor;
     private int mPathWidth;
-    private int mDotSizeNormal;
-    private int mDotSizeSelected;
+    private int mDotNormalSize;
+    private int mDotSelectedSize;
     private int mDotAnimationDuration;
     private int mPathEndAnimationDuration;
 
@@ -183,9 +184,9 @@ public class PatternLockView extends View {
                     ResourceUtils.getColor(getContext(), R.color.white));
             mWrongStateColor = typedArray.getColor(R.styleable.PatternLockView_wrongStateColor,
                     ResourceUtils.getColor(getContext(), R.color.pomegranate));
-            mDotSizeNormal = (int) typedArray.getDimension(R.styleable.PatternLockView_dotNormalSize,
+            mDotNormalSize = (int) typedArray.getDimension(R.styleable.PatternLockView_dotNormalSize,
                     ResourceUtils.getDimensionInPx(getContext(), R.dimen.pattern_lock_dot_size));
-            mDotSizeSelected = (int) typedArray.getDimension(R.styleable
+            mDotSelectedSize = (int) typedArray.getDimension(R.styleable
                             .PatternLockView_dotSelectedSize,
                     ResourceUtils.getDimensionInPx(getContext(), R.dimen.pattern_lock_dot_selected_size));
             mDotAnimationDuration = typedArray.getInt(R.styleable.PatternLockView_dotAnimationDuration,
@@ -205,7 +206,7 @@ public class PatternLockView extends View {
         for (int i = 0; i < sDotCount; i++) {
             for (int j = 0; j < sDotCount; j++) {
                 mDotStates[i][j] = new DotState();
-                mDotStates[i][j].mSize = mDotSizeNormal;
+                mDotStates[i][j].mSize = mDotNormalSize;
             }
         }
 
@@ -499,6 +500,10 @@ public class PatternLockView extends View {
         return sDotCount;
     }
 
+    public boolean isAspectRatioEnabled() {
+        return mAspectRatioEnabled;
+    }
+
     @AspectRatio
     public int getAspectRatio() {
         return mAspectRatio;
@@ -520,16 +525,24 @@ public class PatternLockView extends View {
         return mPathWidth;
     }
 
-    public int getDotSizeNormal() {
-        return mDotSizeNormal;
+    public int getDotNormalSize() {
+        return mDotNormalSize;
     }
 
-    public int getDotSizeSelected() {
-        return mDotSizeSelected;
+    public int getDotSelectedSize() {
+        return mDotSelectedSize;
     }
 
     public int getPatternSize() {
         return mPatternSize;
+    }
+
+    public int getDotAnimationDuration() {
+        return mDotAnimationDuration;
+    }
+
+    public int getPathEndAnimationDuration() {
+        return mPathEndAnimationDuration;
     }
 
     /**
@@ -581,7 +594,7 @@ public class PatternLockView extends View {
         for (int i = 0; i < sDotCount; i++) {
             for (int j = 0; j < sDotCount; j++) {
                 mDotStates[i][j] = new DotState();
-                mDotStates[i][j].mSize = mDotSizeNormal;
+                mDotStates[i][j].mSize = mDotNormalSize;
             }
         }
 
@@ -613,21 +626,21 @@ public class PatternLockView extends View {
         invalidate();
     }
 
-    public void setDotSizeNormal(@Dimension int dotSizeNormal) {
-        mDotSizeNormal = dotSizeNormal;
+    public void setDotNormalSize(@Dimension int dotNormalSize) {
+        mDotNormalSize = dotNormalSize;
 
         for (int i = 0; i < sDotCount; i++) {
             for (int j = 0; j < sDotCount; j++) {
                 mDotStates[i][j] = new DotState();
-                mDotStates[i][j].mSize = mDotSizeNormal;
+                mDotStates[i][j].mSize = mDotNormalSize;
             }
         }
 
         invalidate();
     }
 
-    public void setDotSizeSelected(@Dimension int dotSizeSelected) {
-        mDotSizeSelected = dotSizeSelected;
+    public void setDotSelectedSize(@Dimension int dotSelectedSize) {
+        mDotSelectedSize = dotSelectedSize;
     }
 
     public void setDotAnimationDuration(int dotAnimationDuration) {
@@ -820,12 +833,12 @@ public class PatternLockView extends View {
 
     private void startDotSelectedAnimation(Dot dot) {
         final DotState dotState = mDotStates[dot.mRow][dot.mColumn];
-        startSizeAnimation(mDotSizeNormal, mDotSizeSelected, mDotAnimationDuration,
+        startSizeAnimation(mDotNormalSize, mDotSelectedSize, mDotAnimationDuration,
                 mLinearOutSlowInInterpolator, dotState, new Runnable() {
 
                     @Override
                     public void run() {
-                        startSizeAnimation(mDotSizeSelected, mDotSizeNormal, mDotAnimationDuration,
+                        startSizeAnimation(mDotSelectedSize, mDotNormalSize, mDotAnimationDuration,
                                 mFastOutSlowInInterpolator, dotState, null);
                     }
                 });

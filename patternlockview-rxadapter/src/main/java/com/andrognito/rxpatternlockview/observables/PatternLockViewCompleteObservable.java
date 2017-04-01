@@ -16,13 +16,16 @@ import io.reactivex.android.MainThreadDisposable;
 public class PatternLockViewCompleteObservable extends
         BasePatternLockViewObservable<PatternLockCompleteEvent> {
 
-    public PatternLockViewCompleteObservable(PatternLockView patternLockView) {
-        super(patternLockView);
+    public PatternLockViewCompleteObservable(PatternLockView patternLockView, boolean emitInitialValues) {
+        super(patternLockView, emitInitialValues);
     }
 
     @Override
     protected void subscribeListener(Observer<? super PatternLockCompleteEvent> observer) {
         subscribeListener(observer);
+        if (mEmitInitialValue) {
+            observer.onNext(new PatternLockCompleteEvent(mPatternLockView.getPattern()));
+        }
     }
 
     @Override

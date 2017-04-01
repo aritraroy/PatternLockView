@@ -16,13 +16,16 @@ import io.reactivex.android.MainThreadDisposable;
 public class PatternLockViewProgressObservable extends
         BasePatternLockViewObservable<PatternLockProgressEvent> {
 
-    public PatternLockViewProgressObservable(PatternLockView patternLockView) {
-        super(patternLockView);
+    public PatternLockViewProgressObservable(PatternLockView patternLockView, boolean emitInitialValue) {
+        super(patternLockView, emitInitialValue);
     }
 
     @Override
     protected void subscribeListener(Observer<? super PatternLockProgressEvent> observer) {
         subscribeListener(observer);
+        if (mEmitInitialValue) {
+            observer.onNext(new PatternLockProgressEvent(mPatternLockView.getPattern()));
+        }
     }
 
     @Override

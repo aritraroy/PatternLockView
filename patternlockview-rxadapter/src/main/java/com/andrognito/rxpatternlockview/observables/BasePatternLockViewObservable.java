@@ -12,9 +12,11 @@ import io.reactivex.Observer;
 public abstract class BasePatternLockViewObservable<BasePatternLockEvent>
         extends Observable<BasePatternLockEvent> {
     protected PatternLockView mPatternLockView;
+    protected boolean mEmitInitialValue;
 
-    protected BasePatternLockViewObservable(PatternLockView patternLockView) {
+    protected BasePatternLockViewObservable(PatternLockView patternLockView, boolean emitInitialValue) {
         mPatternLockView = patternLockView;
+        mEmitInitialValue = emitInitialValue;
     }
 
     protected abstract void subscribeListener(Observer<? super BasePatternLockEvent> observer);
