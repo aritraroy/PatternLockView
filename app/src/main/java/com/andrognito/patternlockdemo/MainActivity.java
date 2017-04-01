@@ -8,7 +8,7 @@ import android.view.WindowManager;
 
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.utils.ResourceUtils;
-import com.andrognito.rxpatternlockview.PatternLockEvent;
+import com.andrognito.rxpatternlockview.events.PatternLockCompoundEvent;
 import com.andrognito.rxpatternlockview.RxPatternLockView;
 
 import io.reactivex.functions.Consumer;
@@ -33,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
         mPatternLockView.setCorrectStateColor(ResourceUtils.getColor(this, R.color.colorAccent));
 
         RxPatternLockView.patternChanges(mPatternLockView)
-                .subscribe(new Consumer<PatternLockEvent>() {
+                .subscribe(new Consumer<PatternLockCompoundEvent>() {
                     @Override
-                    public void accept(PatternLockEvent patternLockEvent) throws Exception {
+                    public void accept(PatternLockCompoundEvent patternLockEvent) throws Exception {
                         Log.d(this.getClass().getName(), "Event Type " + patternLockEvent.getEventType());
                         Log.d(this.getClass().getName(), "Pattern " + patternLockEvent.getPattern().toString());
                     }

@@ -28,7 +28,7 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 
-import com.andrognito.patternlockview.listener.PatternLockListener;
+import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
 import com.andrognito.patternlockview.utils.ResourceUtils;
 
@@ -129,7 +129,7 @@ public class PatternLockView extends View {
     private Paint mDotPaint;
     private Paint mPathPaint;
 
-    private List<PatternLockListener> mPatternLockListeners;
+    private List<PatternLockViewListener> mPatternListeners;
     // The pattern represented as a list of connected {@link Dot}
     private ArrayList<Dot> mPattern;
 
@@ -183,10 +183,10 @@ public class PatternLockView extends View {
                     ResourceUtils.getColor(getContext(), R.color.white));
             mWrongStateColor = typedArray.getColor(R.styleable.PatternLockView_wrongStateColor,
                     ResourceUtils.getColor(getContext(), R.color.pomegranate));
-            mDotSizeNormal = (int) typedArray.getDimension(R.styleable.PatternLockView_dotSizeNormal,
+            mDotSizeNormal = (int) typedArray.getDimension(R.styleable.PatternLockView_dotNormalSize,
                     ResourceUtils.getDimensionInPx(getContext(), R.dimen.pattern_lock_dot_size));
             mDotSizeSelected = (int) typedArray.getDimension(R.styleable
-                            .PatternLockView_dotSizeSelected,
+                            .PatternLockView_dotSelectedSize,
                     ResourceUtils.getDimensionInPx(getContext(), R.dimen.pattern_lock_dot_selected_size));
             mDotAnimationDuration = typedArray.getInt(R.styleable.PatternLockView_dotAnimationDuration,
                     DEFAULT_DOT_ANIMATION_DURATION);
@@ -209,7 +209,7 @@ public class PatternLockView extends View {
             }
         }
 
-        mPatternLockListeners = new ArrayList<>();
+        mPatternListeners = new ArrayList<>();
 
         initView();
     }
@@ -639,14 +639,6 @@ public class PatternLockView extends View {
         mPathEndAnimationDuration = pathEndAnimationDuration;
     }
 
-    public void addPatternLockListener(PatternLockListener patternLockListener) {
-        mPatternLockListeners.add(patternLockListener);
-    }
-
-    public void removePatternLockListener(PatternLockListener patternLockListener) {
-        mPatternLockListeners.remove(patternLockListener);
-    }
-
     /**
      * Set whether the View is in stealth mode. If {@code true}, there will be
      * no visible feedback (path drawing, dot animating, etc) as the user enters the pattern
@@ -670,6 +662,14 @@ public class PatternLockView extends View {
 
     public void setEnableHapticFeedback(boolean enableHapticFeedback) {
         mEnableHapticFeedback = enableHapticFeedback;
+    }
+
+    public void addPatternLockListener(PatternLockViewListener patternListener) {
+        mPatternListeners.add(patternListener);
+    }
+
+    public void removePatternLockListener(PatternLockViewListener patternListener) {
+        mPatternListeners.remove(patternListener);
     }
 
     public void clearPattern() {
@@ -721,33 +721,33 @@ public class PatternLockView extends View {
     }
 
     private void notifyListenersStarted() {
-        for (PatternLockListener patternLockListener : mPatternLockListeners) {
-            if (patternLockListener != null) {
-                patternLockListener.onStarted();
+        for (PatternLockViewListener patternListener : mPatternListeners) {
+            if (patternListener != null) {
+                patternListener.onStarted();
             }
         }
     }
 
     private void notifyListenersProgress(List<Dot> pattern) {
-        for (PatternLockListener patternLockListener : mPatternLockListeners) {
-            if (patternLockListener != null) {
-                patternLockListener.onProgress(pattern);
+        for (PatternLockViewListener patternListener : mPatternListeners) {
+            if (patternListener != null) {
+                patternListener.onProgress(pattern);
             }
         }
     }
 
     private void notifyListenersComplete(List<Dot> pattern) {
-        for (PatternLockListener patternLockListener : mPatternLockListeners) {
-            if (patternLockListener != null) {
-                patternLockListener.onComplete(pattern);
+        for (PatternLockViewListener patternListener : mPatternListeners) {
+            if (patternListener != null) {
+                patternListener.onComplete(pattern);
             }
         }
     }
 
     private void notifyListenersCleared() {
-        for (PatternLockListener patternLockListener : mPatternLockListeners) {
-            if (patternLockListener != null) {
-                patternLockListener.onCleared();
+        for (PatternLockViewListener patternListener : mPatternListeners) {
+            if (patternListener != null) {
+                patternListener.onCleared();
             }
         }
     }

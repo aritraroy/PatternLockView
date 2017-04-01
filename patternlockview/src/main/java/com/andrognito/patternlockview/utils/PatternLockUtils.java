@@ -47,7 +47,6 @@ public class PatternLockUtils {
         if (pattern == null) {
             return "";
         }
-
         int patternSize = pattern.size();
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -83,16 +82,17 @@ public class PatternLockUtils {
      */
     public static String patternToSha1(List<PatternLockView.Dot> pattern) {
         try {
-            MessageDigest md = MessageDigest.getInstance(SHA1);
-            md.update(patternToString(pattern).getBytes(UTF8));
+            MessageDigest messageDigest = MessageDigest.getInstance(SHA1);
+            messageDigest.update(patternToString(pattern).getBytes(UTF8));
 
-            byte[] digest = md.digest();
-            BigInteger bi = new BigInteger(1, digest);
-            return String.format((Locale) null, "%0" + (digest.length * 2) + "x", bi).toLowerCase();
+            byte[] digest = messageDigest.digest();
+            BigInteger bigInteger = new BigInteger(1, digest);
+            return String.format((Locale) null,
+                    "%0" + (digest.length * 2) + "x", bigInteger).toLowerCase();
         } catch (NoSuchAlgorithmException e) {
-            return "";
+            return null;
         } catch (UnsupportedEncodingException e) {
-            return "";
+            return null;
         }
     }
 
@@ -106,7 +106,6 @@ public class PatternLockUtils {
     public static ArrayList<PatternLockView.Dot> generateRandomPattern(PatternLockView patternLockView,
                                                                        int size)
             throws IndexOutOfBoundsException {
-
         if (patternLockView == null) {
             throw new IllegalArgumentException("PatternLockView can not be null.");
         }
@@ -116,7 +115,7 @@ public class PatternLockUtils {
                     patternLockView.getDotCount() + "]");
         }
 
-        final List<Integer> usedIds = new ArrayList<>();
+        List<Integer> usedIds = new ArrayList<>();
         int lastId = RandomUtils.randInt(patternLockView.getDotCount());
         usedIds.add(lastId);
 
