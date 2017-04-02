@@ -31,7 +31,7 @@
     <com.andrognito.patternlockview.PatternLockView
         android:id="@+id/patter_lock_view"
         android:layout_width="280dp"
-        android:layout_height="380dp"
+        android:layout_height="280dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         app:aspectRatio="square"

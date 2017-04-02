@@ -30,6 +30,7 @@ public class PatternLockUtils {
 
     private static final String UTF8 = "UTF-8";
     private static final String SHA1 = "SHA-1";
+    private static final String MD5 = "MD5";
 
     private PatternLockUtils() {
         throw new AssertionError("You can not instantiate this class. Use its static utility " +
@@ -87,6 +88,30 @@ public class PatternLockUtils {
                                        List<PatternLockView.Dot> pattern) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(SHA1);
+            messageDigest.update(patternToString(patternLockView, pattern).getBytes(UTF8));
+
+            byte[] digest = messageDigest.digest();
+            BigInteger bigInteger = new BigInteger(1, digest);
+            return String.format((Locale) null,
+                    "%0" + (digest.length * 2) + "x", bigInteger).toLowerCase();
+        } catch (NoSuchAlgorithmException e) {
+            return null;
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Serializes a given pattern to its equivalent MD5 representation. You can store this string
+     * in any persistence storage or send it to the server for verification
+     *
+     * @param pattern The actual pattern
+     * @return The MD5 string of the pattern
+     */
+    public static String patternToMD5(PatternLockView patternLockView,
+                                      List<PatternLockView.Dot> pattern) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance(MD5);
             messageDigest.update(patternToString(patternLockView, pattern).getBytes(UTF8));
 
             byte[] digest = messageDigest.digest();

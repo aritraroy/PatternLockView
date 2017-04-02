@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mPatternLockView = (PatternLockView) findViewById(R.id.patter_lock_view);
-        mPatternLockView.setDotCount(4);
+        mPatternLockView.setDotCount(3);
         mPatternLockView.setAspectRatioEnabled(true);
         mPatternLockView.setAspectRatio(PatternLockView.AspectRatio.ASPECT_RATIO_HEIGHT_BIAS);
         mPatternLockView.setViewMode(PatternLockView.PatternViewMode.CORRECT);
@@ -38,22 +38,24 @@ public class MainActivity extends AppCompatActivity {
         mPatternLockView.addPatternLockListener(new PatternLockViewListener() {
             @Override
             public void onStarted() {
-
+                Log.d(getClass().getName(), "Pattern Started");
             }
 
             @Override
             public void onProgress(List<PatternLockView.Dot> progressPattern) {
-
+                Log.d(getClass().getName(), "Pattern Progress: " +
+                        PatternLockUtils.patternToString(mPatternLockView, progressPattern));
             }
 
             @Override
             public void onComplete(List<PatternLockView.Dot> pattern) {
-                Log.d(getClass().getName(), "LISTENER 1");
+                Log.d(getClass().getName(), "Pattern Complete: " +
+                        PatternLockUtils.patternToString(mPatternLockView, pattern));
             }
 
             @Override
             public void onCleared() {
-
+                Log.d(getClass().getName(), "Pattern Cleared");
             }
         });
 
