@@ -43,7 +43,8 @@ public class PatternLockUtils {
      * @param pattern The actual pattern
      * @return The pattern in its string form
      */
-    public static String patternToString(List<PatternLockView.Dot> pattern) {
+    public static String patternToString(PatternLockView patternLockView,
+                                         List<PatternLockView.Dot> pattern) {
         if (pattern == null) {
             return "";
         }
@@ -52,7 +53,7 @@ public class PatternLockUtils {
 
         for (int i = 0; i < patternSize; i++) {
             PatternLockView.Dot dot = pattern.get(i);
-            stringBuilder.append((dot.getRow() * 3 + dot.getColumn()));
+            stringBuilder.append((dot.getRow() * patternLockView.getDotCount() + dot.getColumn()));
         }
         return stringBuilder.toString();
     }
@@ -63,12 +64,14 @@ public class PatternLockUtils {
      * @param string The pattern serialized with {@link #patternToString}
      * @return The actual pattern
      */
-    public static List<PatternLockView.Dot> stringToPattern(String string) {
+    public static List<PatternLockView.Dot> stringToPattern(PatternLockView patternLockView,
+                                                            String string) {
         List<PatternLockView.Dot> result = new ArrayList<>();
 
         for (int i = 0; i < string.length(); i++) {
             int number = Character.getNumericValue(string.charAt(i));
-            result.add(PatternLockView.Dot.of(number / 3, number % 3));
+            result.add(PatternLockView.Dot.of(number / patternLockView.getDotCount(),
+                    number % patternLockView.getDotCount()));
         }
         return result;
     }
@@ -80,10 +83,11 @@ public class PatternLockUtils {
      * @param pattern The actual pattern
      * @return The SHA-1 string of the pattern
      */
-    public static String patternToSha1(List<PatternLockView.Dot> pattern) {
+    public static String patternToSha1(PatternLockView patternLockView,
+                                       List<PatternLockView.Dot> pattern) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(SHA1);
-            messageDigest.update(patternToString(pattern).getBytes(UTF8));
+            messageDigest.update(patternToString(patternLockView, pattern).getBytes(UTF8));
 
             byte[] digest = messageDigest.digest();
             BigInteger bigInteger = new BigInteger(1, digest);

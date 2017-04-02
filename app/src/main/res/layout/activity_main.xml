@@ -35,8 +35,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         app:aspectRatio="square"
-        app:dotAnimationDuration="150"
         app:aspectRatioEnabled="true"
+        app:dotAnimationDuration="150"
         app:dotCount="3"/>
 
 </LinearLayout>

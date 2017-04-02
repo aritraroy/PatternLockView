@@ -19,7 +19,6 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.Dimension;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
@@ -255,7 +254,7 @@ public class PatternLockView extends View {
         int newHeight;
         switch (mAspectRatio) {
             case ASPECT_RATIO_SQUARE:
-                newWidth = newHeight = Math.min(getMeasuredWidth(), getMeasuredHeight());
+                newWidth = newHeight = Math.min(oldWidth, oldHeight);
                 break;
             case ASPECT_RATIO_WIDTH_BIAS:
                 newWidth = oldWidth;
@@ -382,8 +381,6 @@ public class PatternLockView extends View {
 
     @Override
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
-        Log.d(getClass().getName(), "onSizeChanged() called");
-
         int adjustedWidth = width - getPaddingLeft() - getPaddingRight();
         mViewWidth = adjustedWidth / (float) sDotCount;
 
@@ -395,7 +392,7 @@ public class PatternLockView extends View {
     protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
         return new SavedState(superState,
-                PatternLockUtils.patternToString(mPattern),
+                PatternLockUtils.patternToString(this, mPattern),
                 mPatternViewMode, mInputEnabled, mInStealthMode,
                 mEnableHapticFeedback);
     }
@@ -405,7 +402,7 @@ public class PatternLockView extends View {
         final SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
         setPattern(CORRECT,
-                PatternLockUtils.stringToPattern(savedState.getSerializedPattern()));
+                PatternLockUtils.stringToPattern(this, savedState.getSerializedPattern()));
         mPatternViewMode = savedState.getDisplayMode();
         mInputEnabled = savedState.isInputEnabled();
         mInStealthMode = savedState.isInStealthMode();
@@ -490,10 +487,6 @@ public class PatternLockView extends View {
 
     public boolean isInputEnabled() {
         return mInputEnabled;
-    }
-
-    public boolean isEnableHapticFeedback() {
-        return mEnableHapticFeedback;
     }
 
     public int getDotCount() {
@@ -604,6 +597,11 @@ public class PatternLockView extends View {
 
     public void setAspectRatioEnabled(boolean aspectRatioEnabled) {
         mAspectRatioEnabled = aspectRatioEnabled;
+        requestLayout();
+    }
+
+    public void setAspectRatio(@AspectRatio int aspectRatio) {
+        mAspectRatio = aspectRatio;
         requestLayout();
     }
 
