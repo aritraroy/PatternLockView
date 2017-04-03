@@ -7,7 +7,7 @@ An easy-to-use, customizable, Material Design complaint Pattern Lock view for An
 [ ![Download](https://api.bintray.com/packages/aritraroy/maven/patternlockview/images/download.svg) ](https://bintray.com/aritraroy/maven/patternlockview/_latestVersion) [![API](https://img.shields.io/badge/API-14%2B-orange.svg?style=flat)](https://android-arsenal.com/api?level=14) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
-This library allows you to implement a pattern lock mechanism in your app **easily and quickly**. It is very easy to use and there are **plenty of customization options** available to change the look-and-feel of this view to match your needs.
+This library allows you to implement pattern locking mechanism in your app **easily and quickly**. It is very easy to use and there are **plenty of customization options** available to change the functionality and look-and-feel of this view to match your needs.
 
 It also **supports RxJava 2 view bindings**, so if you are a fan of reactive programming (just like me), you can get a stream of updates as the user draws the pattern.
 
@@ -43,7 +43,7 @@ Place the view in your XML layout file.
         android:layout_height="280dp"/>
 ```
 
-This is enough to get the view rendered in your layout. But you would certainly want to add a listener and listener to pattern changes.
+This is enough to get the view rendered in your layout. But you would certainly want to add a callback listener to listen to pattern changes.
 
 ### Step 2
 
@@ -82,12 +82,12 @@ private PatternLockViewListener mPatternLockViewListener = new PatternLockViewLi
     };
 ```
 
-And that's it! Your PatternLockView is ready to rock. You might also awant to remove the listeners when not needed using,         `mPatternLockView.removePatternLockListener(mPatternLockViewListener);`
+And that's it! Your PatternLockView is ready to rock. You might also want to remove the listeners when not needed,         `removePatternLockListener(mPatternLockViewListener);`
 
 
 ### Step 3 (Optional: ReactiveX Interface)
 
-For the RxJava fanboys, this library also supports RxJava view bindings. You can subscribe to this view to get a stream of pattern change updates.
+For the RxJava fanboys, this library supports RxJava 2 view bindings. You can subscribe to this view to get a stream of pattern change updates.
 
 ```java
 RxPatternLockView.patternChanges(mPatternLockView)
@@ -108,6 +108,8 @@ RxPatternLockView.patternChanges(mPatternLockView)
                     }
                 });
 ```
+
+If you are not interested in getting the compound event, you should subscribe to `patternComplete()` and/or `patternProgress()` for the specific updates. Have a detailed look [here](https://github.com/aritraroy/PatternLockView/blob/master/patternlockview-rxadapter/src/main/java/com/andrognito/rxpatternlockview/RxPatternLockView.java).
 
 # Customization
 
@@ -133,20 +135,21 @@ You can add various attributes to the PatternLockView from your XML layout.
 
 ### JAVA (Programatically)
 
-You can also programatically change the properties of the view, thereby giving you more control over it.
+You can also programatically change the properties of the view, thereby having more control over it.
 
 ```java
-mPatternLockView.setViewMode(PatternLockView.PatternViewMode.CORRECT);
-mPatternLockView.setInStealthMode(true);                     // Set the pattern in stealth mode (pattern drawing is hidden)
-mPatternLockView.setTactileFeedbackEnabled(true);            // Enables vibration feedback when the pattern is drawn
-mPatternLockView.setInputEnabled(false);                     // Disables any input from the pattern lock view completely
+mPatternLockView.setViewMode(PatternLockView.PatternViewMode.CORRECT);       // Set the current viee more 
+mPatternLockView.setInStealthMode(true);                                     // Set the pattern in stealth mode (pattern drawing is hidden)
+mPatternLockView.setTactileFeedbackEnabled(true);                            // Enables vibration feedback when the pattern is drawn
+mPatternLockView.setInputEnabled(false);                                     // Disables any input from the pattern lock view completely
 
 mPatternLockView.setDotCount(3);
 mPatternLockView.setDotNormalSize((int) ResourceUtils.getDimensionInPx(this, R.dimen.pattern_lock_dot_size));
 mPatternLockView.setDotSelectedSize((int) ResourceUtils.getDimensionInPx(this, R.dimen.pattern_lock_dot_selected_size));
 mPatternLockView.setPathWidth((int) ResourceUtils.getDimensionInPx(this, R.dimen.pattern_lock_path_width));
 mPatternLockView.setAspectRatioEnabled(true);
-mPatternLockView.setAspectRatio(PatternLockView.AspectRatio.ASPECT_RATIO_HEIGHT_BIAS);   mPatternLockView.setNormalStateColor(ResourceUtils.getColor(this, R.color.white));
+mPatternLockView.setAspectRatio(PatternLockView.AspectRatio.ASPECT_RATIO_HEIGHT_BIAS); 
+mPatternLockView.setNormalStateColor(ResourceUtils.getColor(this, R.color.white));
 mPatternLockView.setCorrectStateColor(ResourceUtils.getColor(this, R.color.primary));
 mPatternLockView.setWrongStateColor(ResourceUtils.getColor(this, R.color.pomegranate));
 mPatternLockView.setDotAnimationDuration(150);
@@ -154,17 +157,21 @@ mPatternLockView.setPathEndAnimationDuration(100);
 
 ```
 
-# About The Author
-
-### Aritra Roy
-**Email** - aritra.roy.in@gmail.com
-**Play Store App** - [Andrognito 3](https://play.google.com/store/apps/details?id=com.codexapps.andrognito)
-
-[[Blog](https://blog.aritraroy.in/) | [StackOverflow](http://stackoverflow.com/users/2858654/aritra-roy) | [Twitter](https://twitter.com/aritraroy93)]
-
 # Contribution
 
 This library is inspired from AOSP's [LockPatternView](https://github.com/android/platform_frameworks_base/blob/master/core/java/com/android/internal/widget/LockPatternView.java). There are lots of improvements and customization options added so that you can get started without any hassle. If you find a bug or would like to improve any aspect of it, feel free to contribute with pull requests.
+
+
+# About The Author
+
+### Aritra Roy
+
+Android & Backend Developer. Blogger. Designer. Fitness Enthusiast.
+
+<a href="https://play.google.com/store/apps/details?id=com.codexapps.andrognito&hl=en"><img src="https://github.com/aritraroy/social-icons/blob/master/play-store-icon.png?raw=true" width="60"></a> <a href="https://blog.aritraroy.in/"><img src="https://github.com/aritraroy/social-icons/blob/master/medium-icon.png?raw=true" width="60"></a>
+<a href="http://stackoverflow.com/users/2858654/aritra-roy"><img src="https://github.com/aritraroy/social-icons/blob/master/stackoverflow-icon.png?raw=true" width="60"></a>
+<a href="https://twitter.com/aritraroy93"><img src="https://github.com/aritraroy/social-icons/blob/master/twitter-icon.png?raw=true" width="60"></a>
+
 
 # License
 
