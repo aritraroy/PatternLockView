@@ -29,6 +29,11 @@ dependencies {
 }
 ```
 
+### Spread Some :heart:
+[![GitHub stars](https://img.shields.io/github/stars/aritraroy/RxMagneto.svg?style=social&label=Star)](https://github.com/aritraroy) [![GitHub followers](https://img.shields.io/github/followers/aritraroy.svg?style=social&label=Follow)](https://github.com/aritraroy)  
+[![Twitter Follow](https://img.shields.io/twitter/follow/aritraroy93.svg?style=social)](https://twitter.com/aritraroy93) 
+
+
 # Usage
 We recommend you to check the [sample project](https://github.com/aritraroy/PatternLockView/blob/master/app/src/main/java/com/andrognito/patternlockdemo/MainActivity.java) to get a complete understanding of the library. The step-by-step implementation guide is as follows.
 
