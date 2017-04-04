@@ -43,7 +43,7 @@ Place the view in your XML layout file.
 
 ```xml
     <com.andrognito.patternlockview.PatternLockView
-        android:id="@+id/patter_lock_view"
+        android:id="@+id/pattern_lock_view"
         android:layout_width="280dp"
         android:layout_height="280dp"/>
 ```
@@ -55,7 +55,7 @@ This is enough to get the view rendered in your layout. But you would certainly 
 Reference the view in code and add a listener to it.
 
 ```java
-mPatternLockView = (PatternLockView) findViewById(R.id.patter_lock_view);
+mPatternLockView = (PatternLockView) findViewById(R.id.pattern_lock_view);
 mPatternLockView.addPatternLockListener(mPatternLockViewListener);
 ```
 
