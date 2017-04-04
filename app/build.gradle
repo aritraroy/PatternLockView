@@ -14,7 +14,7 @@ android {
 
 dependencies {
     compile project(':patternlockview')
-    compile project(':patternlockview-rxadapter')
+    compile project(':patternlockview-reactive')
     compile rootProject.ext.supportV7
     compile rootProject.ext.rxJava
 }

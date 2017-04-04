@@ -2,11 +2,11 @@ apply plugin: 'com.android.library'
 
 ext {
     bintrayRepo = 'maven'
-    bintrayName = 'patternlockview-rxadapter'
+    bintrayName = 'patternlockview-reactive'
 
     publishedGroupId = 'com.andrognito.patternlockview'
-    libraryName = 'patternlockview-rxadapter'
-    artifact = 'patternlockview-rxadapter'
+    libraryName = 'patternlockview-reactive'
+    artifact = 'patternlockview-reactive'
 
     libraryDescription = 'An easy-to-use, customizable, Material Design complaint Pattern Lock ' +
             'view for Android'
