@@ -65,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
         mPatternLockView.setDotAnimationDuration(150);
         mPatternLockView.setPathEndAnimationDuration(100);
         mPatternLockView.setCorrectStateColor(ResourceUtils.getColor(this, R.color.white));
-        mPatternLockView.setInStealthMode(true);
+        mPatternLockView.setInStealthMode(false);
         mPatternLockView.setTactileFeedbackEnabled(true);
-        mPatternLockView.setInputEnabled(false);
+        mPatternLockView.setInputEnabled(true);
         mPatternLockView.addPatternLockListener(mPatternLockViewListener);
 
         RxPatternLockView.patternComplete(mPatternLockView)
