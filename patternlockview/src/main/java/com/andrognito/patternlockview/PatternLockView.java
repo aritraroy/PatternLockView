@@ -3,7 +3,6 @@ package com.andrognito.patternlockview;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -779,7 +778,6 @@ public class PatternLockView extends View {
      * @param x The x coordinate
      * @param y The y coordinate
      */
-    @TargetApi(Build.VERSION_CODES.ECLAIR)
     private Dot detectAndAddHit(float x, float y) {
         final Dot dot = checkForNewHit(x, y);
         if (dot != null) {
