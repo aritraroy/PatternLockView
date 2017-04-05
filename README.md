@@ -4,7 +4,7 @@
 An easy-to-use, customizable, Material Design complaint Pattern Lock view for Android.
 
 ### Specs
-[ ![Download](https://api.bintray.com/packages/aritraroy/maven/patternlockview/images/download.svg) ](https://bintray.com/aritraroy/maven/patternlockview/_latestVersion) [![API](https://img.shields.io/badge/API-14%2B-orange.svg?style=flat)](https://android-arsenal.com/api?level=14) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[ ![Download](https://api.bintray.com/packages/aritraroy/maven/patternlockview/images/download.svg) ](https://bintray.com/aritraroy/maven/patternlockview/_latestVersion) [![API](https://img.shields.io/badge/API-14%2B-orange.svg?style=flat)](https://android-arsenal.com/api?level=14) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-PatternLockView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5515)
 
 
 This library allows you to implement pattern locking mechanism in your app **easily and quickly**. It is very easy to use and there are **plenty of customization options** available to change the functionality and look-and-feel of this view to match your needs.
