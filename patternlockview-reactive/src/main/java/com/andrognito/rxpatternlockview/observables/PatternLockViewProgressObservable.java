@@ -22,17 +22,17 @@ public class PatternLockViewProgressObservable extends
 
     @Override
     protected void subscribeListener(Observer<? super PatternLockProgressEvent> observer) {
-        subscribeListener(observer);
-        if (mEmitInitialValue) {
-            observer.onNext(new PatternLockProgressEvent(mPatternLockView.getPattern()));
-        }
+        InternalListener internalListener = new InternalListener(mPatternLockView, observer);
+        observer.onSubscribe(internalListener);
+        mPatternLockView.addPatternLockListener(internalListener);
     }
 
     @Override
     protected void subscribeActual(Observer<? super PatternLockProgressEvent> observer) {
-        InternalListener internalListener = new InternalListener(mPatternLockView, observer);
-        observer.onSubscribe(internalListener);
-        mPatternLockView.addPatternLockListener(internalListener);
+        subscribeListener(observer);
+        if (mEmitInitialValue) {
+            observer.onNext(new PatternLockProgressEvent(mPatternLockView.getPattern()));
+        }
     }
 
     private static final class InternalListener extends MainThreadDisposable
