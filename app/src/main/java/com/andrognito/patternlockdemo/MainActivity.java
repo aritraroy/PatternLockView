@@ -70,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         mPatternLockView.setInputEnabled(true);
         mPatternLockView.addPatternLockListener(mPatternLockViewListener);
 
+        mPatternLockView.setCircleRadius((int) getResources().getDimension(R.dimen.pattern_lock_dot_circle_size));
+        mPatternLockView.setShowCircleEnable(true);
+
         RxPatternLockView.patternComplete(mPatternLockView)
                 .subscribe(new Consumer<PatternLockCompleteEvent>() {
                     @Override
