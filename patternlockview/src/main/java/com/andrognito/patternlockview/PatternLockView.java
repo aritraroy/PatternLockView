@@ -126,6 +126,27 @@ public class PatternLockView extends View {
     private int mDotAnimationDuration;
     private int mPathEndAnimationDuration;
 
+    private int mCircleRadius = 0;               // Radius of the circle
+    private boolean mShowCircleEnable = false;   // enable draw a circle
+
+    public int getCircleRadius() {
+        return mCircleRadius;
+    }
+
+    public void setCircleRadius(int circleRadius) {
+        mCircleRadius = circleRadius;
+        initView();
+        invalidate();
+    }
+
+    public boolean isShowCircleEnable() {
+        return mShowCircleEnable;
+    }
+
+    public void setShowCircleEnable(boolean showCircleEnable) {
+        mShowCircleEnable = showCircleEnable;
+    }
+
     private Paint mDotPaint;
     private Paint mPathPaint;
 
@@ -192,6 +213,10 @@ public class PatternLockView extends View {
                     DEFAULT_DOT_ANIMATION_DURATION);
             mPathEndAnimationDuration = typedArray.getInt(R.styleable.PatternLockView_pathEndAnimationDuration,
                     DEFAULT_PATH_END_ANIMATION_DURATION);
+            mCircleRadius = (int) typedArray.getDimension(R.styleable.PatternLockView_circleRadius,
+                    ResourceUtils.getDimensionInPx(getContext(), R.dimen.pattern_lock_dot_circle_size));
+            mShowCircleEnable = typedArray.getBoolean(R.styleable.PatternLockView_showCircleEnable,
+                    false);
         } finally {
             typedArray.recycle();
         }
@@ -361,6 +386,9 @@ public class PatternLockView extends View {
                     }
                     canvas.drawPath(currentPath, mPathPaint);
                 }
+                // Draw a circle outside the dot
+                if (isShowCircleEnable())
+                    canvas.drawCircle(centerX, centerY, mCircleRadius, mPathPaint);
                 lastX = centerX;
                 lastY = centerY;
             }
@@ -375,6 +403,9 @@ public class PatternLockView extends View {
                 mPathPaint.setAlpha((int) (calculateLastSegmentAlpha(
                         mInProgressX, mInProgressY, lastX, lastY) * 255f));
                 canvas.drawPath(currentPath, mPathPaint);
+                // Draw a circle outside the dot
+                if (isShowCircleEnable())
+                    canvas.drawCircle(lastX, lastY, mCircleRadius, mPathPaint);
             }
         }
     }
