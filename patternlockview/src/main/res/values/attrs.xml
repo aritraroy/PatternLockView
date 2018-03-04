@@ -16,5 +16,7 @@
         <attr name="wrongStateColor" format="color"/>
         <attr name="dotAnimationDuration" format="integer"/>
         <attr name="pathEndAnimationDuration" format="integer"/>
+        <attr name="circleRadius" format="dimension"/>
+        <attr name="showCircleEnable" format="boolean"/>
     </declare-styleable>
 </resources>
