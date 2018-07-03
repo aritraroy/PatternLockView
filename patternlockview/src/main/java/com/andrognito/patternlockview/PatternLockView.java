@@ -1078,14 +1078,24 @@ public class PatternLockView extends View {
         float x = event.getX();
         float y = event.getY();
         Dot hitDot = detectAndAddHit(x, y);
-        if (hitDot != null) {
-            mPatternInProgress = true;
-            mPatternViewMode = CORRECT;
-            notifyPatternStarted();
-        } else {
-            mPatternInProgress = false;
-            notifyPatternCleared();
-        }
+       //there maybe produce an error 
+        //when user touch the view but any dot is detect,
+        //mPatternInProgress is not be set to true
+        //then user move finger, 
+        //the #handleActionMove will handle the action and draw
+        //the dot viewmode will be wrong
+        //so, whether hitDot is null or not null
+        //the mPatternInProgress should be true 
+        // if (hitDot != null) {
+        mPatternInProgress = true;
+        mPatternViewMode = CORRECT;
+        notifyPatternStarted();
+            // } else {
+                // mPatternInProgress = false;
+                //when handle the DOWN ACTION ,
+                //there shouldn't be notify observers it's be cleared 
+                // notifyPatternCleared();
+            // }
         if (hitDot != null) {
             float startX = getCenterXForColumn(hitDot.mColumn);
             float startY = getCenterYForRow(hitDot.mRow);
