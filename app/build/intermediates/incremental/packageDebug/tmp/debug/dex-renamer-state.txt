@@ -1,0 +1,4 @@
+#Fri Feb 22 11:44:58 CST 2019
+base.0=/Users/jiangkang/OpenProjects/PatternLockView/app/build/intermediates/dex/debug/mergeDexDebug/out
+path.0=classes.dex
+renamed.0=classes.dex
