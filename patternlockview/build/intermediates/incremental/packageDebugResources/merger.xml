@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/jiangkang/OpenProjects/PatternLockView/patternlockview/src/main/res"/><source path="/Users/jiangkang/OpenProjects/PatternLockView/patternlockview/build/generated/res/rs/debug"/><source path="/Users/jiangkang/OpenProjects/PatternLockView/patternlockview/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/jiangkang/OpenProjects/PatternLockView/patternlockview/src/main/res"><file path="/Users/jiangkang/OpenProjects/PatternLockView/patternlockview/src/main/res/values/dimens.xml" qualifiers=""><dimen name="pattern_lock_path_width">3dp</dimen><dimen name="pattern_lock_dot_size">10dp</dimen><dimen name="pattern_lock_dot_selected_size">24dp</dimen></file><file path="/Users/jiangkang/OpenProjects/PatternLockView/patternlockview/src/main/res/values/strings.xml" qualifiers=""><string name="lib_name">PatternLockView</string><string name="message_pattern_dot_added">Dot added to pattern</string><string name="message_pattern_started">Pattern drawing started</string><string name="message_pattern_detected">Pattern drawing completed</string><string name="message_pattern_cleared">Pattern cleared</string></file><file path="/Users/jiangkang/OpenProjects/PatternLockView/patternlockview/src/main/res/values/attrs.xml" qualifiers=""><declare-styleable name="PatternLockView">
+        <attr format="integer" name="dotCount"/>
+        <attr format="dimension" name="dotNormalSize"/>
+        <attr format="dimension" name="dotSelectedSize"/>
+        <attr format="dimension" name="pathWidth"/>
+        <attr format="boolean" name="aspectRatioEnabled"/>
+        <attr format="enum" name="aspectRatio">
+            <enum name="square" value="0"/>
+            <enum name="width_bias" value="1"/>
+            <enum name="height_bias" value="2"/>
+        </attr>
+        <attr format="color" name="normalStateColor"/>
+        <attr format="color" name="correctStateColor"/>
+        <attr format="color" name="wrongStateColor"/>
+        <attr format="integer" name="dotAnimationDuration"/>
+        <attr format="integer" name="pathEndAnimationDuration"/>
+    </declare-styleable></file><file path="/Users/jiangkang/OpenProjects/PatternLockView/patternlockview/src/main/res/values/color.xml" qualifiers=""><color name="white">#FFFF</color><color name="pomegranate">#f4511e</color></file></source><source path="/Users/jiangkang/OpenProjects/PatternLockView/patternlockview/build/generated/res/rs/debug"/><source path="/Users/jiangkang/OpenProjects/PatternLockView/patternlockview/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/jiangkang/OpenProjects/PatternLockView/patternlockview/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/jiangkang/OpenProjects/PatternLockView/patternlockview/src/debug/res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="PatternLockView">
+        <attr format="integer" name="dotCount"/>
+        <attr format="dimension" name="dotNormalSize"/>
+        <attr format="dimension" name="dotSelectedSize"/>
+        <attr format="dimension" name="pathWidth"/>
+        <attr format="boolean" name="aspectRatioEnabled"/>
+        <attr format="enum" name="aspectRatio">
+            <enum name="square" value="0"/>
+            <enum name="width_bias" value="1"/>
+            <enum name="height_bias" value="2"/>
+        </attr>
+        <attr format="color" name="normalStateColor"/>
+        <attr format="color" name="correctStateColor"/>
+        <attr format="color" name="wrongStateColor"/>
+        <attr format="integer" name="dotAnimationDuration"/>
+        <attr format="integer" name="pathEndAnimationDuration"/>
+    </declare-styleable></configuration></mergedItems></merger>

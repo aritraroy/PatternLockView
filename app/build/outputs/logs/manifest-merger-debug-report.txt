@@ -1,0 +1,137 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:2:1-20:12
+INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:2:1-20:12
+INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:2:1-20:12
+MERGED from [:patternlockview-reactive] /Users/jiangkang/OpenProjects/PatternLockView/patternlockview-reactive/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
+MERGED from [:patternlockview] /Users/jiangkang/OpenProjects/PatternLockView/patternlockview/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:appcompat-v7:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.0.aar/7504a098e4bc43d86cdb43f2fd21e688/AndroidManifest.xml:17:1-31:12
+MERGED from [io.reactivex.rxjava2:rxandroid:2.0.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/rxandroid-2.0.0.aar/6e0d5e46a68d35b273cca8e0951ceb00/AndroidManifest.xml:15:1-21:12
+MERGED from [com.android.support:animated-vector-drawable:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.3.0.aar/77825a9e77a81a85d30b739ca039ae86/AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:support-vector-drawable:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.3.0.aar/8f2c5cd735b6683d2f135d22fa691ca7/AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:support-v4:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-v4-25.3.0.aar/b48ed7e823a16277df10e95a0ddbc142/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-fragment:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-fragment-25.3.0.aar/a0a8af9bfb582843dc91c72a7f3a5ed5/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-media-compat:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.3.0.aar/c8102f11d289c600a203f8d68cbf000a/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-core-utils:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.3.0.aar/ebd5323c6a7ab0e00708715021c3e076/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-core-ui:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.3.0.aar/c08415dafcca56988cf48cd4138664d3/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-compat:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-compat-25.3.0.aar/07fd590d27bd76c242619607c681e821/AndroidManifest.xml:17:1-31:12
+INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:2:1-20:12
+INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:2:1-20:12
+	package
+		ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:3:11-51
+	android:versionName
+		INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml
+		ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:2:1-20:12
+		INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml
+		ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:2:1-20:12
+		INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:2:11-69
+application
+ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:5:5-18:19
+MERGED from [com.android.support:appcompat-v7:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.0.aar/7504a098e4bc43d86cdb43f2fd21e688/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:appcompat-v7:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.0.aar/7504a098e4bc43d86cdb43f2fd21e688/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.3.0.aar/77825a9e77a81a85d30b739ca039ae86/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.3.0.aar/77825a9e77a81a85d30b739ca039ae86/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-vector-drawable:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.3.0.aar/8f2c5cd735b6683d2f135d22fa691ca7/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-vector-drawable:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.3.0.aar/8f2c5cd735b6683d2f135d22fa691ca7/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-v4:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-v4-25.3.0.aar/b48ed7e823a16277df10e95a0ddbc142/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-v4:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-v4-25.3.0.aar/b48ed7e823a16277df10e95a0ddbc142/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-fragment:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-fragment-25.3.0.aar/a0a8af9bfb582843dc91c72a7f3a5ed5/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-fragment:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-fragment-25.3.0.aar/a0a8af9bfb582843dc91c72a7f3a5ed5/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-media-compat:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.3.0.aar/c8102f11d289c600a203f8d68cbf000a/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-media-compat:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.3.0.aar/c8102f11d289c600a203f8d68cbf000a/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-utils:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.3.0.aar/ebd5323c6a7ab0e00708715021c3e076/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-utils:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.3.0.aar/ebd5323c6a7ab0e00708715021c3e076/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-ui:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.3.0.aar/c08415dafcca56988cf48cd4138664d3/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-ui:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.3.0.aar/c08415dafcca56988cf48cd4138664d3/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-compat:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-compat-25.3.0.aar/07fd590d27bd76c242619607c681e821/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-compat:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-compat-25.3.0.aar/07fd590d27bd76c242619607c681e821/AndroidManifest.xml:29:5-20
+	android:supportsRtl
+		ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:9:9-35
+	android:label
+		ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:8:9-41
+	android:icon
+		ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:7:9-38
+	android:allowBackup
+		ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:6:9-35
+	android:theme
+		ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:10:9-40
+activity#com.andrognito.patternlockdemo.MainActivity
+ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:11:9-17:20
+	android:name
+		ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:11:19-47
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:12:13-16:29
+action#android.intent.action.MAIN
+ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:13:17-68
+	android:name
+		ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:13:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:15:17-76
+	android:name
+		ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml:15:27-74
+uses-sdk
+INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml
+INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml
+MERGED from [:patternlockview-reactive] /Users/jiangkang/OpenProjects/PatternLockView/patternlockview-reactive/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:patternlockview-reactive] /Users/jiangkang/OpenProjects/PatternLockView/patternlockview-reactive/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:patternlockview] /Users/jiangkang/OpenProjects/PatternLockView/patternlockview/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:patternlockview] /Users/jiangkang/OpenProjects/PatternLockView/patternlockview/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:appcompat-v7:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.0.aar/7504a098e4bc43d86cdb43f2fd21e688/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:appcompat-v7:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.0.aar/7504a098e4bc43d86cdb43f2fd21e688/AndroidManifest.xml:21:5-23:78
+MERGED from [io.reactivex.rxjava2:rxandroid:2.0.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/rxandroid-2.0.0.aar/6e0d5e46a68d35b273cca8e0951ceb00/AndroidManifest.xml:19:5-43
+MERGED from [io.reactivex.rxjava2:rxandroid:2.0.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/rxandroid-2.0.0.aar/6e0d5e46a68d35b273cca8e0951ceb00/AndroidManifest.xml:19:5-43
+MERGED from [com.android.support:animated-vector-drawable:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.3.0.aar/77825a9e77a81a85d30b739ca039ae86/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.3.0.aar/77825a9e77a81a85d30b739ca039ae86/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.3.0.aar/8f2c5cd735b6683d2f135d22fa691ca7/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-vector-drawable:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.3.0.aar/8f2c5cd735b6683d2f135d22fa691ca7/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-v4-25.3.0.aar/b48ed7e823a16277df10e95a0ddbc142/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-v4:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-v4-25.3.0.aar/b48ed7e823a16277df10e95a0ddbc142/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-fragment-25.3.0.aar/a0a8af9bfb582843dc91c72a7f3a5ed5/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-fragment:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-fragment-25.3.0.aar/a0a8af9bfb582843dc91c72a7f3a5ed5/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.3.0.aar/c8102f11d289c600a203f8d68cbf000a/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-media-compat:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.3.0.aar/c8102f11d289c600a203f8d68cbf000a/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-utils:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.3.0.aar/ebd5323c6a7ab0e00708715021c3e076/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-core-utils:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.3.0.aar/ebd5323c6a7ab0e00708715021c3e076/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-core-ui:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.3.0.aar/c08415dafcca56988cf48cd4138664d3/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-ui:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.3.0.aar/c08415dafcca56988cf48cd4138664d3/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-compat:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-compat-25.3.0.aar/07fd590d27bd76c242619607c681e821/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-compat:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-compat-25.3.0.aar/07fd590d27bd76c242619607c681e821/AndroidManifest.xml:21:5-23:58
+INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml
+INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml
+	tools:overrideLibrary
+		ADDED from [com.android.support:appcompat-v7:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.0.aar/7504a098e4bc43d86cdb43f2fd21e688/AndroidManifest.xml:23:9-75
+	android:targetSdkVersion
+		INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml
+		ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml
+		ADDED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jiangkang/OpenProjects/PatternLockView/app/src/main/AndroidManifest.xml
+meta-data#android.support.VERSION
+ADDED from [com.android.support:appcompat-v7:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.0.aar/7504a098e4bc43d86cdb43f2fd21e688/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:animated-vector-drawable:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.3.0.aar/77825a9e77a81a85d30b739ca039ae86/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:animated-vector-drawable:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.3.0.aar/77825a9e77a81a85d30b739ca039ae86/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-vector-drawable:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.3.0.aar/8f2c5cd735b6683d2f135d22fa691ca7/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-vector-drawable:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.3.0.aar/8f2c5cd735b6683d2f135d22fa691ca7/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-v4:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-v4-25.3.0.aar/b48ed7e823a16277df10e95a0ddbc142/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-v4:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-v4-25.3.0.aar/b48ed7e823a16277df10e95a0ddbc142/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-fragment:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-fragment-25.3.0.aar/a0a8af9bfb582843dc91c72a7f3a5ed5/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-fragment:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-fragment-25.3.0.aar/a0a8af9bfb582843dc91c72a7f3a5ed5/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-media-compat:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.3.0.aar/c8102f11d289c600a203f8d68cbf000a/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-media-compat:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.3.0.aar/c8102f11d289c600a203f8d68cbf000a/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-utils:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.3.0.aar/ebd5323c6a7ab0e00708715021c3e076/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-utils:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.3.0.aar/ebd5323c6a7ab0e00708715021c3e076/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-ui:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.3.0.aar/c08415dafcca56988cf48cd4138664d3/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-ui:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.3.0.aar/c08415dafcca56988cf48cd4138664d3/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-compat:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-compat-25.3.0.aar/07fd590d27bd76c242619607c681e821/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-compat:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/support-compat-25.3.0.aar/07fd590d27bd76c242619607c681e821/AndroidManifest.xml:25:5-27:34
+	android:value
+		ADDED from [com.android.support:appcompat-v7:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.0.aar/7504a098e4bc43d86cdb43f2fd21e688/AndroidManifest.xml:27:9-31
+	android:name
+		ADDED from [com.android.support:appcompat-v7:25.3.0] /Users/jiangkang/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.3.0.aar/7504a098e4bc43d86cdb43f2fd21e688/AndroidManifest.xml:26:9-47
