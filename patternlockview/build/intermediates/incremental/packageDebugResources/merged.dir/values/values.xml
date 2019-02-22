@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="pomegranate">#f4511e</color>
+    <color name="white">#FFFF</color>
+    <dimen name="pattern_lock_dot_selected_size">24dp</dimen>
+    <dimen name="pattern_lock_dot_size">10dp</dimen>
+    <dimen name="pattern_lock_path_width">3dp</dimen>
+    <string name="lib_name">PatternLockView</string>
+    <string name="message_pattern_cleared">Pattern cleared</string>
+    <string name="message_pattern_detected">Pattern drawing completed</string>
+    <string name="message_pattern_dot_added">Dot added to pattern</string>
+    <string name="message_pattern_started">Pattern drawing started</string>
+    <declare-styleable name="PatternLockView">
+        <attr format="integer" name="dotCount"/>
+        <attr format="dimension" name="dotNormalSize"/>
+        <attr format="dimension" name="dotSelectedSize"/>
+        <attr format="dimension" name="pathWidth"/>
+        <attr format="boolean" name="aspectRatioEnabled"/>
+        <attr format="enum" name="aspectRatio">
+            <enum name="square" value="0"/>
+            <enum name="width_bias" value="1"/>
+            <enum name="height_bias" value="2"/>
+        </attr>
+        <attr format="color" name="normalStateColor"/>
+        <attr format="color" name="correctStateColor"/>
+        <attr format="color" name="wrongStateColor"/>
+        <attr format="integer" name="dotAnimationDuration"/>
+        <attr format="integer" name="pathEndAnimationDuration"/>
+    </declare-styleable>
+</resources>
