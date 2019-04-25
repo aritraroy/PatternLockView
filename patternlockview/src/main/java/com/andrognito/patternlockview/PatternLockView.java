@@ -242,7 +242,7 @@ public class PatternLockView extends View {
                     getContext(), android.R.interpolator.linear_out_slow_in);
         }
         if (mDotDrawable != null) {
-            mBitmap = getBitmapFromVectorDrawable(getContext(), mDotDrawable);
+            mBitmap = getBitmapFromVectorDrawable(mDotDrawable);
         }
     }
 
@@ -321,7 +321,6 @@ public class PatternLockView extends View {
 
         Path currentPath = mCurrentPath;
         currentPath.rewind();
-//TODO : can be using drawable.
         // Draw the dots
         for (int i = 0; i < sDotCount; i++) {
             float centerY = getCenterYForRow(i);
@@ -330,7 +329,7 @@ public class PatternLockView extends View {
                 float centerX = getCenterXForColumn(j);
                 float size = dotState.mSize * dotState.mScale;
                 float translationY = dotState.mTranslateY;
-                if (mDotDrawable != null) {
+                if (mBitmap != null) {
                     drawDrawable(canvas, (int) centerX, (int) centerY + translationY,
                             size, drawLookupTable[i][j], dotState.mAlpha);
                 } else {
@@ -1160,21 +1159,24 @@ public class PatternLockView extends View {
         mDotPaint.setColor(getCurrentColor(partOfPattern));
         mDotPaint.setAlpha((int) (alpha * 255));
 
-        canvas.drawBitmap(mBitmap, centerX - (mBitmap.getWidth() / 2), centerY - (mBitmap.getHeight() / 2), mDotPaint);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(mBitmap, (int) size, (int) size, false);
+
+        canvas.drawBitmap(scaledBitmap, centerX - (scaledBitmap.getWidth() / 2f), centerY - (scaledBitmap.getHeight() / 2f), mDotPaint);
     }
 
-    public Bitmap getBitmapFromVectorDrawable(Context context, Drawable drawable) {
+    /**
+     * using for
+     */
+    public Bitmap getBitmapFromVectorDrawable(Drawable drawable) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             drawable = (DrawableCompat.wrap(drawable)).mutate();
         }
 
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         drawable.draw(canvas);
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 60, 60, false);
-        return scaledBitmap;
+        return bitmap;
     }
 
     /**

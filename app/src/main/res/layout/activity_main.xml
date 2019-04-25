@@ -35,8 +35,13 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         app:aspectRatio="square"
+        android:drawingCacheQuality="high"
+        app:dotNormalSize="40dp"
+        app:dotSelectedSize="50dp"
+        app:normalStateColor="#2196F3"
+        app:wrongStateColor="#C73047"
+        app:correctStateColor="#34A242"
         app:aspectRatioEnabled="true"
-        app:dotDrawable="@drawable/logo"
         app:dotAnimationDuration="150"
         app:dotCount="3"/>
 
