@@ -36,6 +36,7 @@
         android:layout_marginTop="16dp"
         app:aspectRatio="square"
         app:aspectRatioEnabled="true"
+        app:dotDrawable="@drawable/logo"
         app:dotAnimationDuration="150"
         app:dotCount="3"/>
 
