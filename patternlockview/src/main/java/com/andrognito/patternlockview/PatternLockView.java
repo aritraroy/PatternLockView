@@ -5,10 +5,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Debug;
 import android.os.Parcel;
@@ -17,6 +19,7 @@ import android.os.SystemClock;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Dimension;
 import android.support.annotation.IntDef;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
@@ -124,9 +127,10 @@ public class PatternLockView extends View {
     private int mDotSelectedSize;
     private int mDotAnimationDuration;
     private int mPathEndAnimationDuration;
-
     private Paint mDotPaint;
     private Paint mPathPaint;
+    private Bitmap mBitmap;
+    private Drawable mDotDrawable;
 
     private List<PatternLockViewListener> mPatternListeners;
     // The pattern represented as a list of connected {@link Dot}
@@ -191,6 +195,10 @@ public class PatternLockView extends View {
                     DEFAULT_DOT_ANIMATION_DURATION);
             mPathEndAnimationDuration = typedArray.getInt(R.styleable.PatternLockView_pathEndAnimationDuration,
                     DEFAULT_PATH_END_ANIMATION_DURATION);
+            mDotDrawable = typedArray.getDrawable(R.styleable.PatternLockView_dotDrawable);
+            if (mDotDrawable != null) {
+                mBitmap = getBitmapFromVectorDrawable(mDotDrawable);
+            }
         } finally {
             typedArray.recycle();
         }
@@ -205,6 +213,11 @@ public class PatternLockView extends View {
             for (int j = 0; j < sDotCount; j++) {
                 mDotStates[i][j] = new DotState();
                 mDotStates[i][j].mSize = mDotNormalSize;
+                if (mBitmap != null) {
+                    mDotStates[i][j].mDotView = new View(context);
+                    Canvas canvas = new Canvas(mBitmap);
+                    mDotStates[i][j].mDotView.draw(canvas);
+                }
             }
         }
 
@@ -236,6 +249,7 @@ public class PatternLockView extends View {
             mLinearOutSlowInInterpolator = AnimationUtils.loadInterpolator(
                     getContext(), android.R.interpolator.linear_out_slow_in);
         }
+
     }
 
     @Override
@@ -314,18 +328,6 @@ public class PatternLockView extends View {
         Path currentPath = mCurrentPath;
         currentPath.rewind();
 
-        // Draw the dots
-        for (int i = 0; i < sDotCount; i++) {
-            float centerY = getCenterYForRow(i);
-            for (int j = 0; j < sDotCount; j++) {
-                DotState dotState = mDotStates[i][j];
-                float centerX = getCenterXForColumn(j);
-                float size = dotState.mSize * dotState.mScale;
-                float translationY = dotState.mTranslateY;
-                drawCircle(canvas, (int) centerX, (int) centerY + translationY,
-                        size, drawLookupTable[i][j], dotState.mAlpha);
-            }
-        }
 
         // Draw the path of the pattern (unless we are in stealth mode)
         boolean drawPath = !mInStealthMode;
@@ -363,7 +365,24 @@ public class PatternLockView extends View {
                 lastX = centerX;
                 lastY = centerY;
             }
+            // Draw the dots
+            for (int i = 0; i < sDotCount; i++) {
+                float centerY = getCenterYForRow(i);
+                for (int j = 0; j < sDotCount; j++) {
+                    DotState dotState = mDotStates[i][j];
+                    float centerX = getCenterXForColumn(j);
+                    float size = dotState.mSize * dotState.mScale;
+                    float translationY = dotState.mTranslateY;
+                    if (mBitmap != null) {
+                        drawDrawable(canvas, (int) centerX, (int) centerY + translationY,
+                                size, drawLookupTable[i][j], dotState.mAlpha);
+                    } else {
 
+                        drawCircle(canvas, (int) centerX, (int) centerY + translationY,
+                                size, drawLookupTable[i][j], dotState.mAlpha);
+                    }
+                }
+            }
             // Draw last in progress section
             if ((mPatternInProgress || mPatternViewMode == AUTO_DRAW)
                     && anyCircles) {
@@ -875,15 +894,39 @@ public class PatternLockView extends View {
                                     Interpolator interpolator, final DotState state,
                                     final Runnable endRunnable) {
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(start, end);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        if (mBitmap != null) {
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                state.mSize = (Float) animation.getAnimatedValue();
-                invalidate();
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    state.mSize = (Float) animation.getAnimatedValue();
+                    invalidate();
+                }
+
+            });
+            if (endRunnable != null) {
+                valueAnimator.addListener(new AnimatorListenerAdapter() {
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        if (endRunnable != null) {
+                            endRunnable.run();
+                        }
+                    }
+                });
             }
+        } else {
 
-        });
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    state.mSize = (Float) animation.getAnimatedValue();
+                    invalidate();
+                }
+
+            });
+        }
         if (endRunnable != null) {
             valueAnimator.addListener(new AnimatorListenerAdapter() {
 
@@ -1140,6 +1183,28 @@ public class PatternLockView extends View {
         mDotPaint.setColor(getCurrentColor(partOfPattern));
         mDotPaint.setAlpha((int) (alpha * 255));
         canvas.drawCircle(centerX, centerY, size / 2, mDotPaint);
+    }
+
+    private void drawDrawable(Canvas canvas, float centerX, float centerY, float size, boolean partOfPattern, float alpha) {
+        mDotPaint.setColor(getCurrentColor(partOfPattern));
+        mDotPaint.setAlpha((int) (alpha * 255));
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(mBitmap, (int) size, (int) size, false);
+        canvas.drawBitmap(scaledBitmap, centerX - (scaledBitmap.getWidth() / 2f), centerY - (scaledBitmap.getHeight() / 2f), mDotPaint);
+    }
+
+    /**
+     * using for
+     */
+    public Bitmap getBitmapFromVectorDrawable(Drawable drawable) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            drawable = (DrawableCompat.wrap(drawable)).mutate();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return bitmap;
     }
 
     /**

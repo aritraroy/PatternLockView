@@ -16,5 +16,6 @@
         <attr name="wrongStateColor" format="color"/>
         <attr name="dotAnimationDuration" format="integer"/>
         <attr name="pathEndAnimationDuration" format="integer"/>
+        <attr name="dotDrawable" format="reference" />
     </declare-styleable>
 </resources>
