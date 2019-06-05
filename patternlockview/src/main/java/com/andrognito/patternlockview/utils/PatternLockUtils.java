@@ -65,14 +65,13 @@ public class PatternLockUtils {
      * @param string The pattern serialized with {@link #patternToString}
      * @return The actual pattern
      */
-    public static List<PatternLockView.Dot> stringToPattern(PatternLockView patternLockView,
-                                                            String string) {
+    public static List<PatternLockView.Dot> intArrayToPattern(PatternLockView patternLockView,
+                                                            int[] combination) {
         List<PatternLockView.Dot> result = new ArrayList<>();
 
-        for (int i = 0; i < string.length(); i++) {
-            int number = Character.getNumericValue(string.charAt(i));
-            result.add(PatternLockView.Dot.of(number / patternLockView.getDotCount(),
-                    number % patternLockView.getDotCount()));
+        for (int i = 0; i < combination.length; i++) {
+            result.add(PatternLockView.Dot.of(combination[i] / patternLockView.getDotCount(), 
+                                              combination[i] % patternLockView.getDotCount()));
         }
         return result;
     }
