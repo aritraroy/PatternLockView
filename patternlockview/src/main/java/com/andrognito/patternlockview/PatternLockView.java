@@ -391,7 +391,7 @@ public class PatternLockView extends View {
     protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
         return new SavedState(superState,
-                PatternLockUtils.patternToString(this, mPattern),
+                PatternLockUtils.patternToIntArray(this, mPattern),
                 mPatternViewMode, mInputEnabled, mInStealthMode,
                 mEnableHapticFeedback);
     }
@@ -401,7 +401,7 @@ public class PatternLockView extends View {
         final SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
         setPattern(CORRECT,
-                PatternLockUtils.stringToPattern(this, savedState.getSerializedPattern()));
+                PatternLockUtils.intArrayToPattern(this, savedState.getSerializedPattern()));
         mPatternViewMode = savedState.getDisplayMode();
         mInputEnabled = savedState.isInputEnabled();
         mInStealthMode = savedState.isInStealthMode();
