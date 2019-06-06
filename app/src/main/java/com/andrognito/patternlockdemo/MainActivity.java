@@ -31,13 +31,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onProgress(List<PatternLockView.Dot> progressPattern) {
             Log.d(getClass().getName(), "Pattern progress: " +
-                    PatternLockUtils.patternToString(mPatternLockView, progressPattern));
+                    PatternLockUtils.patternToIntArray(mPatternLockView, progressPattern));
         }
 
         @Override
         public void onComplete(List<PatternLockView.Dot> pattern) {
             Log.d(getClass().getName(), "Pattern complete: " +
-                    PatternLockUtils.patternToString(mPatternLockView, pattern));
+                    PatternLockUtils.patternToIntArray(mPatternLockView, pattern));
         }
 
         @Override
@@ -86,10 +86,10 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(getClass().getName(), "Pattern drawing started");
                         } else if (event.getEventType() == PatternLockCompoundEvent.EventType.PATTERN_PROGRESS) {
                             Log.d(getClass().getName(), "Pattern progress: " +
-                                    PatternLockUtils.patternToString(mPatternLockView, event.getPattern()));
+                                    PatternLockUtils.patternToIntArray(mPatternLockView, event.getPattern()));
                         } else if (event.getEventType() == PatternLockCompoundEvent.EventType.PATTERN_COMPLETE) {
                             Log.d(getClass().getName(), "Pattern complete: " +
-                                    PatternLockUtils.patternToString(mPatternLockView, event.getPattern()));
+                                    PatternLockUtils.patternToIntArray(mPatternLockView, event.getPattern()));
                         } else if (event.getEventType() == PatternLockCompoundEvent.EventType.PATTERN_CLEARED) {
                             Log.d(getClass().getName(), "Pattern has been cleared");
                         }

@@ -28,10 +28,6 @@ import java.util.Locale;
 
 public class PatternLockUtils {
 
-    private static final String UTF8 = "UTF-8";
-    private static final String SHA1 = "SHA-1";
-    private static final String MD5 = "MD5";
-
     private PatternLockUtils() {
         throw new AssertionError("You can not instantiate this class. Use its static utility " +
                 "methods instead");
@@ -62,7 +58,7 @@ public class PatternLockUtils {
     /**
      * De-serializes a given string to its equivalent pattern representation
      *
-     * @param string The pattern serialized with {@link #patternToString}
+     * @param int[] The pattern serialized with {@link #patternToIntArray}
      * @return The actual pattern
      */
     public static List<PatternLockView.Dot> intArrayToPattern(PatternLockView patternLockView,
