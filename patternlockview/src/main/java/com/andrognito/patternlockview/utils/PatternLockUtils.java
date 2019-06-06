@@ -44,19 +44,19 @@ public class PatternLockUtils {
      * @param pattern The actual pattern
      * @return The pattern in its string form
      */
-    public static String patternToString(PatternLockView patternLockView,
-                                         List<PatternLockView.Dot> pattern) {
+
+    public static int[] patternToIntArray(PatternLockView patternLockView,
+                                          List<PatternLockView.Dot> pattern) {
         if (pattern == null) {
-            return "";
+            return new int[0];
         }
         int patternSize = pattern.size();
-        StringBuilder stringBuilder = new StringBuilder();
-
+        int[] patternIntArray = new int[patternSize];
         for (int i = 0; i < patternSize; i++) {
             PatternLockView.Dot dot = pattern.get(i);
-            stringBuilder.append((dot.getRow() * patternLockView.getDotCount() + dot.getColumn()));
+            patternIntArray[i] = (dot.getRow() * patternLockView.getDotCount() + dot.getColumn());
         }
-        return stringBuilder.toString();
+        return patternIntArray;
     }
 
     /**
@@ -66,7 +66,7 @@ public class PatternLockUtils {
      * @return The actual pattern
      */
     public static List<PatternLockView.Dot> intArrayToPattern(PatternLockView patternLockView,
-                                                            int[] combination) {
+                                                              int[] combination) {
         List<PatternLockView.Dot> result = new ArrayList<>();
 
         for (int i = 0; i < combination.length; i++) {
@@ -74,54 +74,6 @@ public class PatternLockUtils {
                                               combination[i] % patternLockView.getDotCount()));
         }
         return result;
-    }
-
-    /**
-     * Serializes a given pattern to its equivalent SHA-1 representation. You can store this string
-     * in any persistence storage or send it to the server for verification
-     *
-     * @param pattern The actual pattern
-     * @return The SHA-1 string of the pattern
-     */
-    public static String patternToSha1(PatternLockView patternLockView,
-                                       List<PatternLockView.Dot> pattern) {
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance(SHA1);
-            messageDigest.update(patternToString(patternLockView, pattern).getBytes(UTF8));
-
-            byte[] digest = messageDigest.digest();
-            BigInteger bigInteger = new BigInteger(1, digest);
-            return String.format((Locale) null,
-                    "%0" + (digest.length * 2) + "x", bigInteger).toLowerCase();
-        } catch (NoSuchAlgorithmException e) {
-            return null;
-        } catch (UnsupportedEncodingException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Serializes a given pattern to its equivalent MD5 representation. You can store this string
-     * in any persistence storage or send it to the server for verification
-     *
-     * @param pattern The actual pattern
-     * @return The MD5 string of the pattern
-     */
-    public static String patternToMD5(PatternLockView patternLockView,
-                                      List<PatternLockView.Dot> pattern) {
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance(MD5);
-            messageDigest.update(patternToString(patternLockView, pattern).getBytes(UTF8));
-
-            byte[] digest = messageDigest.digest();
-            BigInteger bigInteger = new BigInteger(1, digest);
-            return String.format((Locale) null,
-                    "%0" + (digest.length * 2) + "x", bigInteger).toLowerCase();
-        } catch (NoSuchAlgorithmException e) {
-            return null;
-        } catch (UnsupportedEncodingException e) {
-            return null;
-        }
     }
 
     /**
