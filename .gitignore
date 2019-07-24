@@ -1,0 +1,17 @@
+*.iml
+.gradle
+/local.properties
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+/.idea/caches/build_file_checksums.ser
+/app/release/
+/.idea/misc.xml
+/gradle2/
+/patternlockview/build
+/patternlockview-reactive/build
+/app/build
