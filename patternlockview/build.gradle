@@ -37,7 +37,8 @@ android {
 }
 
 dependencies {
-    implementation rootProject.ext.supportV7
+    implementation rootProject.ext.appcompat
+    implementation rootProject.ext.annotation
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

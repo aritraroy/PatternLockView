@@ -14,6 +14,6 @@ android {
 dependencies {
     implementation project(':patternlockview')
     implementation project(':patternlockview-reactive')
-    implementation rootProject.ext.supportV7
+    implementation rootProject.ext.appcompat
     implementation rootProject.ext.rxJava
 }
