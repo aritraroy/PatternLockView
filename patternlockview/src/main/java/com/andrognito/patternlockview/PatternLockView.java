@@ -586,11 +586,11 @@ public class PatternLockView extends View {
             }
         }
 
-        mPatternSize = sDotCount * sDotCount;
+        mPatternSize = dotCount * dotCount;
         mPattern = new ArrayList<>(mPatternSize);
-        mPatternDrawLookup = new boolean[sDotCount][sDotCount];
+        mPatternDrawLookup = new boolean[dotCount][dotCount];
 
-        mDotStates = new DotState[sDotCount][sDotCount];
+        mDotStates = new DotState[dotCount][dotCount];
         for (int i = 0; i < sDotCount; i++) {
             for (int j = 0; j < sDotCount; j++) {
                 mDotStates[i][j] = new DotState();
