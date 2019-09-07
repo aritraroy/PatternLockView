@@ -112,6 +112,7 @@ public class PatternLockView extends View {
     private float mHitFactor = 0.6f;
 
     // Made static so that the static inner class can use it
+    private static Dot[][] sDots;
     private static int sDotCount;
 
     private boolean mAspectRatioEnabled;
@@ -578,11 +579,18 @@ public class PatternLockView extends View {
 
     public void setDotCount(int dotCount) {
         sDotCount = dotCount;
-        mPatternSize = sDotCount * sDotCount;
-        mPattern = new ArrayList<>(mPatternSize);
-        mPatternDrawLookup = new boolean[sDotCount][sDotCount];
+        sDots = new Dot[dotCount][dotCount];
+        for (int i = 0; i < dotCount; i++) {
+            for (int j = 0; j < dotCount; j++) {
+                sDots[i][j] = new Dot(i, j);
+            }
+        }
 
-        mDotStates = new DotState[sDotCount][sDotCount];
+        mPatternSize = dotCount * dotCount;
+        mPattern = new ArrayList<>(mPatternSize);
+        mPatternDrawLookup = new boolean[dotCount][dotCount];
+
+        mDotStates = new DotState[dotCount][dotCount];
         for (int i = 0; i < sDotCount; i++) {
             for (int j = 0; j < sDotCount; j++) {
                 mDotStates[i][j] = new DotState();
@@ -1149,7 +1157,6 @@ public class PatternLockView extends View {
 
         private int mRow;
         private int mColumn;
-        private static Dot[][] sDots;
 
         static {
             sDots = new Dot[sDotCount][sDotCount];
