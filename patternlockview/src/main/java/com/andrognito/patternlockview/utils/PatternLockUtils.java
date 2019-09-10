@@ -28,10 +28,6 @@ import java.util.Locale;
 
 public class PatternLockUtils {
 
-    private static final String UTF8 = "UTF-8";
-    private static final String SHA1 = "SHA-1";
-    private static final String MD5 = "MD5";
-
     private PatternLockUtils() {
         throw new AssertionError("You can not instantiate this class. Use its static utility " +
                 "methods instead");
@@ -44,85 +40,36 @@ public class PatternLockUtils {
      * @param pattern The actual pattern
      * @return The pattern in its string form
      */
-    public static String patternToString(PatternLockView patternLockView,
-                                         List<PatternLockView.Dot> pattern) {
+
+    public static int[] patternToIntArray(PatternLockView patternLockView,
+                                          List<PatternLockView.Dot> pattern) {
         if (pattern == null) {
-            return "";
+            return new int[0];
         }
         int patternSize = pattern.size();
-        StringBuilder stringBuilder = new StringBuilder();
-
+        int[] patternIntArray = new int[patternSize];
         for (int i = 0; i < patternSize; i++) {
             PatternLockView.Dot dot = pattern.get(i);
-            stringBuilder.append((dot.getRow() * patternLockView.getDotCount() + dot.getColumn()));
+            patternIntArray[i] = (dot.getRow() * patternLockView.getDotCount() + dot.getColumn());
         }
-        return stringBuilder.toString();
+        return patternIntArray;
     }
 
     /**
      * De-serializes a given string to its equivalent pattern representation
      *
-     * @param string The pattern serialized with {@link #patternToString}
+     * @param int[] The pattern serialized with {@link #patternToIntArray}
      * @return The actual pattern
      */
-    public static List<PatternLockView.Dot> stringToPattern(PatternLockView patternLockView,
-                                                            String string) {
+    public static List<PatternLockView.Dot> intArrayToPattern(PatternLockView patternLockView,
+                                                              int[] combination) {
         List<PatternLockView.Dot> result = new ArrayList<>();
 
-        for (int i = 0; i < string.length(); i++) {
-            int number = Character.getNumericValue(string.charAt(i));
-            result.add(PatternLockView.Dot.of(number / patternLockView.getDotCount(),
-                    number % patternLockView.getDotCount()));
+        for (int i = 0; i < combination.length; i++) {
+            result.add(PatternLockView.Dot.of(combination[i] / patternLockView.getDotCount(), 
+                                              combination[i] % patternLockView.getDotCount()));
         }
         return result;
-    }
-
-    /**
-     * Serializes a given pattern to its equivalent SHA-1 representation. You can store this string
-     * in any persistence storage or send it to the server for verification
-     *
-     * @param pattern The actual pattern
-     * @return The SHA-1 string of the pattern
-     */
-    public static String patternToSha1(PatternLockView patternLockView,
-                                       List<PatternLockView.Dot> pattern) {
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance(SHA1);
-            messageDigest.update(patternToString(patternLockView, pattern).getBytes(UTF8));
-
-            byte[] digest = messageDigest.digest();
-            BigInteger bigInteger = new BigInteger(1, digest);
-            return String.format((Locale) null,
-                    "%0" + (digest.length * 2) + "x", bigInteger).toLowerCase();
-        } catch (NoSuchAlgorithmException e) {
-            return null;
-        } catch (UnsupportedEncodingException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Serializes a given pattern to its equivalent MD5 representation. You can store this string
-     * in any persistence storage or send it to the server for verification
-     *
-     * @param pattern The actual pattern
-     * @return The MD5 string of the pattern
-     */
-    public static String patternToMD5(PatternLockView patternLockView,
-                                      List<PatternLockView.Dot> pattern) {
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance(MD5);
-            messageDigest.update(patternToString(patternLockView, pattern).getBytes(UTF8));
-
-            byte[] digest = messageDigest.digest();
-            BigInteger bigInteger = new BigInteger(1, digest);
-            return String.format((Locale) null,
-                    "%0" + (digest.length * 2) + "x", bigInteger).toLowerCase();
-        } catch (NoSuchAlgorithmException e) {
-            return null;
-        } catch (UnsupportedEncodingException e) {
-            return null;
-        }
     }
 
     /**

@@ -112,6 +112,7 @@ public class PatternLockView extends View {
     private float mHitFactor = 0.6f;
 
     // Made static so that the static inner class can use it
+    private static Dot[][] sDots;
     private static int sDotCount;
 
     private boolean mAspectRatioEnabled;
@@ -391,7 +392,7 @@ public class PatternLockView extends View {
     protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
         return new SavedState(superState,
-                PatternLockUtils.patternToString(this, mPattern),
+                PatternLockUtils.patternToIntArray(this, mPattern),
                 mPatternViewMode, mInputEnabled, mInStealthMode,
                 mEnableHapticFeedback);
     }
@@ -401,7 +402,7 @@ public class PatternLockView extends View {
         final SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
         setPattern(CORRECT,
-                PatternLockUtils.stringToPattern(this, savedState.getSerializedPattern()));
+                   PatternLockUtils.intArrayToPattern(this, savedState.getSerializedPattern()));
         mPatternViewMode = savedState.getDisplayMode();
         mInputEnabled = savedState.isInputEnabled();
         mInStealthMode = savedState.isInStealthMode();
@@ -578,6 +579,13 @@ public class PatternLockView extends View {
 
     public void setDotCount(int dotCount) {
         sDotCount = dotCount;
+        sDots = new Dot[sDotCount][sDotCount];
+        for (int i = 0; i < sDotCount; i++) {
+            for (int j = 0; j < sDotCount; j++) {
+                sDots[i][j] = new Dot(i, j);
+            }
+        }
+
         mPatternSize = sDotCount * sDotCount;
         mPattern = new ArrayList<>(mPatternSize);
         mPatternDrawLookup = new boolean[sDotCount][sDotCount];
@@ -1149,7 +1157,6 @@ public class PatternLockView extends View {
 
         private int mRow;
         private int mColumn;
-        private static Dot[][] sDots;
 
         static {
             sDots = new Dot[sDotCount][sDotCount];
@@ -1264,7 +1271,7 @@ public class PatternLockView extends View {
      */
     private static class SavedState extends BaseSavedState {
 
-        private final String mSerializedPattern;
+        private final int[] mSerializedPattern;
         private final int mDisplayMode;
         private final boolean mInputEnabled;
         private final boolean mInStealthMode;
@@ -1273,7 +1280,7 @@ public class PatternLockView extends View {
         /**
          * Constructor called from {@link PatternLockView#onSaveInstanceState()}
          */
-        private SavedState(Parcelable superState, String serializedPattern,
+        private SavedState(Parcelable superState, int[] serializedPattern,
                            int displayMode, boolean inputEnabled, boolean inStealthMode,
                            boolean tactileFeedbackEnabled) {
             super(superState);
@@ -1291,14 +1298,14 @@ public class PatternLockView extends View {
         private SavedState(Parcel in) {
             super(in);
 
-            mSerializedPattern = in.readString();
+            mSerializedPattern = in.createIntArray();
             mDisplayMode = in.readInt();
             mInputEnabled = (Boolean) in.readValue(null);
             mInStealthMode = (Boolean) in.readValue(null);
             mTactileFeedbackEnabled = (Boolean) in.readValue(null);
         }
 
-        public String getSerializedPattern() {
+        public int[] getSerializedPattern() {
             return mSerializedPattern;
         }
 
@@ -1321,7 +1328,7 @@ public class PatternLockView extends View {
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
-            dest.writeString(mSerializedPattern);
+            dest.writeIntArray(mSerializedPattern);
             dest.writeInt(mDisplayMode);
             dest.writeValue(mInputEnabled);
             dest.writeValue(mInStealthMode);
