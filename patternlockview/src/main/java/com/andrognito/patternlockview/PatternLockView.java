@@ -438,6 +438,7 @@ public class PatternLockView extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                getParent().requestDisallowInterceptTouchEvent(true);
                 handleActionDown(event);
                 return true;
             case MotionEvent.ACTION_UP:
