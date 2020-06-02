@@ -27,7 +27,6 @@ ext {
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
@@ -38,9 +37,10 @@ android {
 }
 
 dependencies {
-    compile project(':patternlockview')
-    compile rootProject.ext.rxJava
-    compile rootProject.ext.rxAndroid
+    implementation project(':patternlockview')
+    implementation rootProject.ext.annotation
+    implementation rootProject.ext.rxJava
+    implementation rootProject.ext.rxAndroid
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

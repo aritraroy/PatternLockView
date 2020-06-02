@@ -14,9 +14,9 @@ import android.os.Debug;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
-import android.support.annotation.ColorInt;
-import android.support.annotation.Dimension;
-import android.support.annotation.IntDef;
+import androidx.annotation.ColorInt;
+import androidx.annotation.Dimension;
+import androidx.annotation.IntDef;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
@@ -391,7 +391,7 @@ public class PatternLockView extends View {
     protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
         return new SavedState(superState,
-                PatternLockUtils.patternToString(this, mPattern),
+                PatternLockUtils.patternToIntArray(this, mPattern),
                 mPatternViewMode, mInputEnabled, mInStealthMode,
                 mEnableHapticFeedback);
     }
@@ -401,7 +401,7 @@ public class PatternLockView extends View {
         final SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
         setPattern(CORRECT,
-                PatternLockUtils.stringToPattern(this, savedState.getSerializedPattern()));
+                   PatternLockUtils.intArrayToPattern(this, savedState.getSerializedPattern()));
         mPatternViewMode = savedState.getDisplayMode();
         mInputEnabled = savedState.isInputEnabled();
         mInStealthMode = savedState.isInStealthMode();
@@ -1264,7 +1264,7 @@ public class PatternLockView extends View {
      */
     private static class SavedState extends BaseSavedState {
 
-        private final String mSerializedPattern;
+        private final int[] mSerializedPattern;
         private final int mDisplayMode;
         private final boolean mInputEnabled;
         private final boolean mInStealthMode;
@@ -1273,7 +1273,7 @@ public class PatternLockView extends View {
         /**
          * Constructor called from {@link PatternLockView#onSaveInstanceState()}
          */
-        private SavedState(Parcelable superState, String serializedPattern,
+        private SavedState(Parcelable superState, int[] serializedPattern,
                            int displayMode, boolean inputEnabled, boolean inStealthMode,
                            boolean tactileFeedbackEnabled) {
             super(superState);
@@ -1291,14 +1291,14 @@ public class PatternLockView extends View {
         private SavedState(Parcel in) {
             super(in);
 
-            mSerializedPattern = in.readString();
+            mSerializedPattern = in.createIntArray();
             mDisplayMode = in.readInt();
             mInputEnabled = (Boolean) in.readValue(null);
             mInStealthMode = (Boolean) in.readValue(null);
             mTactileFeedbackEnabled = (Boolean) in.readValue(null);
         }
 
-        public String getSerializedPattern() {
+        public int[] getSerializedPattern() {
             return mSerializedPattern;
         }
 
@@ -1321,7 +1321,7 @@ public class PatternLockView extends View {
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
-            dest.writeString(mSerializedPattern);
+            dest.writeIntArray(mSerializedPattern);
             dest.writeInt(mDisplayMode);
             dest.writeValue(mInputEnabled);
             dest.writeValue(mInStealthMode);
