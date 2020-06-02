@@ -23,9 +23,9 @@ This library is available in **jCenter** which is the default Maven repository u
 dependencies {
     // other dependencies here
     
-    compile 'com.andrognito.patternlockview:patternlockview:1.0.0'
+    implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'
     // Optional, for RxJava2 adapter
-    compile 'com.andrognito.patternlockview:patternlockview-reactive:1.0.0'
+    implementation 'com.andrognito.patternlockview:patternlockview-reactive:1.0.0'
 }
 ```
 
